@@ -20,7 +20,7 @@ class TreeNode {
 private:
     int key;
     T *value;
-    int height = 0;
+    int nodeHeight = 0;
     TreeNode<T> *parent = nullptr;
     TreeNode<T> *left = nullptr;
     TreeNode<T> *right = nullptr;
@@ -194,20 +194,21 @@ template<class T>
 int TreeNode<T>::getBalance(TreeNode<T> *node) {
     if (node == nullptr) {
         return 0;
-    return height(node->getLeft()) -
-           height(node->getRight());
-
+    }
+    TreeNode<T>* iLeft = node->getLeft();
+    TreeNode<T>* iRight = node->getRight();
+    return iLeft->getHeight() - iRight->getHeight();
 }
 
 template<class T>
 void TreeNode<T>::setHeight(int height) {
-    this->height = height;
+    this->nodeHeight = height;
 
 }
 
 template<class T>
 int TreeNode<T>::getHeight() {
-    return this->height;
+    return this->nodeHeight;
 }
 
 template<class T>
@@ -391,23 +392,23 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     int balance = root->getBalance(root);
     //balancing the tree if necessary
     //LL case
-    if(balance>1 && ins->getKey() < subLeftTree->getKey()){
+    if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
         SivanRightRotate(root);
     }
 
     //RR case
-    if(balance<-1 && ins->getKey() > subLeftTree->getKey()){
+    if (balance < -1 && ins->getKey() > subLeftTree->getKey()) {
         SivanLeftRotate(root);
     }
 
     //LR case
-    if(balance>1 && ins->getKey() > subLeftTree->getKey()){
-            root->setLeft(SivanLeftRotate(subLeftTree));
-            SivanRightRotate(root);
+    if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
+        root->setLeft(SivanLeftRotate(subLeftTree));
+        SivanRightRotate(root);
     }
 
     //RL case
-    if(balance < -1 && ins->getKey() < subRightTree->getKey()){
+    if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
         root->setRight(SivanRightRotate(root->getRight()));
         SivanLeftRotate(root);
     }
