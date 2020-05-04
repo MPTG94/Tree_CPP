@@ -19,7 +19,7 @@ template<class T>
 class TreeNode {
 private:
     int key;
-    T* value;
+    T *value;
     TreeNode<T> *parent = nullptr;
     TreeNode<T> *left = nullptr;
     TreeNode<T> *right = nullptr;
@@ -29,6 +29,8 @@ public:
     ~TreeNode();
 
     int getKey();
+
+    void setKey(int gKey);
 
     T *getValue();
 
@@ -51,6 +53,8 @@ public:
     TreeNode<T> *findMin(TreeNode<T> *node);
 
     TreeNode<T> *getNext();
+
+    int getBalance(TreeNode<T> *node);
 };
 
 template<class T>
@@ -167,6 +171,21 @@ TreeNode<T>::~TreeNode() {
     if (this->value != nullptr) {
         delete this->value;
     }
+}
+
+template<class T>
+void TreeNode<T>::setKey(int gKey) {
+    this->key = gKey;
+
+}
+
+template<class T>
+int TreeNode<T>::getBalance(TreeNode<T> *node) {
+    if (node = nullptr)
+        return 0;
+    return height(node->getLeft()) -
+           height(node->getRight());
+    return 0;
 }
 
 template<class T>
@@ -319,6 +338,75 @@ Tree<T>::~Tree() {
     root = nullptr;
 }
 
+template<class T>
+StatusType Tree<T>::Remove(int key) {
+    //called find before, know that a matching key exist
+    if (root == nullptr) {
+        return FAILURE;
+    } else if (root->getKey() > key) {
+        //should search at the left side
+        this->getLeft().remove(key);
+    } else if (root->getKey() < key) {
+        //should search at the right side
+        this->getRight.Remove(key);
+    } else {
+        //find a matching key :)
+        if (root->getLeft() == nullptr || root->getRight() == nullptr) {
+            TreeNode<T> temp = root->getLeft() ? root->getLeft() : root->findMin();
+            TreeNode<T> fatherTemp = root->getParent();
+
+            if (temp == nullptr) {
+                //no child
+                if (root->getKey() > key) {
+                    //the node to be deleted is the right son
+                    fatherTemp.setLeft(nullptr);
+                } else {
+                    temp.setRight(nullptr);
+                }
+                delete root;
+            } else {
+                //one child case
+                temp.setParent(root->getParent());
+                if (root->getKey() > key) {
+                    fatherTemp.setLeft(temp);
+                } else {
+                    fatherTemp.setRight(temp);
+                }
+                delete root;
+            }
+        } else {
+            //node with 2 children
+            TreeNode<T> temp = root->findMin(root->getRight());
+            root->setKey(temp.getKey());
+            root->setValue(temp.getValue());
+            Remove(temp.getKey());
+        }
+    }
+
+    int balance = root->getBalance(root);
+
+    //LL case
+    if (balance > 1 && root->getBalance(root->getLeft()) >= 0) {
+        RotateRightOnce(root);
+    }
+
+    //LR case
+    if (balance > 1 && root->getBalance(root->getLeft()) < 0) {
+        RotateLeftTwice(root);
+    }
+
+    //RR case
+    if (balance < -1 & root->getBalance(root->getRight()) <= 0) {
+        RotateRightOnce(root);
+    }
+
+    //RL case
+    if (balance < -1 && root->getBalance(root->getRight()) > 0) {
+        return RotateRightTwice(root);
+    }
+
+    return SUCCESS;
+}
 
 #endif //TREETEST2_TREE_H
 
