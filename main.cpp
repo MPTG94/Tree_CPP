@@ -56,6 +56,7 @@ int main() {
     TreeNode<myData> *foo = dataTree->Find(2);
     myData *bar = foo->getValue();
     bar->Print();
+    dataTree->PrintInOrder();
     delete dataTree;
     return 0;
 }

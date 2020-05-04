@@ -55,6 +55,12 @@ public:
     TreeNode<T> *getNext();
 
     int getBalance(TreeNode<T> *node);
+
+    static void printPreOrder(TreeNode<T> *node);
+
+    static void printInOrder(TreeNode<T> *node);
+
+    static void printPostOrder(TreeNode<T> *node);
 };
 
 template<class T>
@@ -189,6 +195,54 @@ int TreeNode<T>::getBalance(TreeNode<T> *node) {
 }
 
 template<class T>
+void TreeNode<T>::printPreOrder(TreeNode<T> *node) {
+    if (!node) {
+        return;
+    }
+
+    // Print the data of our node
+    std::cout << node->getKey() << ", ";
+
+    // Print the left subtree
+    printPreOrder(node->getLeft());
+
+    // Print the right subtree
+    printPreOrder(node->getRight());
+}
+
+template<class T>
+void TreeNode<T>::printInOrder(TreeNode<T> *node) {
+    if (!node) {
+        return;
+    }
+
+    // Print the left subtree
+    printInOrder(node->getLeft());
+
+    // Print the data of our node
+    std::cout << node->getKey() << ", ";
+
+    // Print the right subtree
+    printInOrder(node->getRight());
+}
+
+template<class T>
+void TreeNode<T>::printPostOrder(TreeNode<T> *node) {
+    if (!node) {
+        return;
+    }
+
+    // Print the left subtree
+    printPostOrder(node->getLeft());
+
+    // Print the right subtree
+    printPostOrder(node->getRight());
+
+    // Print the data of our node
+    std::cout << node->getKey() << ", ";
+}
+
+template<class T>
 class Tree {
 private:
     TreeNode<T> *root;
@@ -215,6 +269,12 @@ public:
     void RotateRightOnce(TreeNode<T> *node);
 
     void RotateRightTwice(TreeNode<T> *node);
+
+    void PrintPreOrder();
+
+    void PrintInOrder();
+
+    void PrintPostOrder();
 };
 
 template<class T>
@@ -406,6 +466,21 @@ StatusType Tree<T>::Remove(int key) {
     }
 
     return SUCCESS;
+}
+
+template<class T>
+void Tree<T>::PrintPreOrder() {
+    TreeNode<T>::printPreOrder(root);
+}
+
+template<class T>
+void Tree<T>::PrintInOrder() {
+    TreeNode<T>::printInOrder(root);
+}
+
+template<class T>
+void Tree<T>::PrintPostOrder() {
+    TreeNode<T>::printPostOrder(root);
 }
 
 #endif //TREETEST2_TREE_H
