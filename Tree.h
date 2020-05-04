@@ -20,9 +20,9 @@ class TreeNode {
 private:
     int key;
     T* value;
-    TreeNode<T> *parent;
-    TreeNode<T> *left;
-    TreeNode<T> *right;
+    TreeNode<T> *parent = nullptr;
+    TreeNode<T> *left = nullptr;
+    TreeNode<T> *right = nullptr;
 public:
     TreeNode(int key, T *value);
 
@@ -164,9 +164,9 @@ TreeNode<T>::~TreeNode() {
     if (this->left != nullptr) {
         delete this->left;
     }
-//    if (this->value != nullptr) {
-//        delete this->value;
-//    }
+    if (this->value != nullptr) {
+        delete this->value;
+    }
 }
 
 template<class T>

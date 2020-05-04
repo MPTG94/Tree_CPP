@@ -48,7 +48,10 @@ int main() {
         return 0;
     }
     myData* data1 = new myData(1,1);
-    dataTree->Insert(1,data1);
+    if (dataTree->Insert(1,data1) != SUCCESS) {
+        delete dataTree;
+        return 0;
+    }
     addNewNode(dataTree);
     TreeNode<myData> *foo = dataTree->Find(2);
     myData *bar = foo->getValue();
