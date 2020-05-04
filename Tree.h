@@ -20,6 +20,7 @@ class TreeNode {
 private:
     int key;
     T *value;
+    int height = 0;
     TreeNode<T> *parent = nullptr;
     TreeNode<T> *left = nullptr;
     TreeNode<T> *right = nullptr;
@@ -47,6 +48,10 @@ public:
     TreeNode<T> *getParent();
 
     void setParent(TreeNode<T> *nParent);
+
+    void setHeight(int height);
+
+    int getHeight();
 
     static TreeNode<T> *find(TreeNode<T> *node, int gKey);
 
@@ -187,11 +192,22 @@ void TreeNode<T>::setKey(int gKey) {
 
 template<class T>
 int TreeNode<T>::getBalance(TreeNode<T> *node) {
-    if (node = nullptr)
+    if (node == nullptr) {
         return 0;
     return height(node->getLeft()) -
            height(node->getRight());
-    return 0;
+
+}
+
+template<class T>
+void TreeNode<T>::setHeight(int height) {
+    this->height = height;
+
+}
+
+template<class T>
+int TreeNode<T>::getHeight() {
+    return this->height;
 }
 
 template<class T>
@@ -269,6 +285,10 @@ public:
     void RotateRightOnce(TreeNode<T> *node);
 
     void RotateRightTwice(TreeNode<T> *node);
+
+    TreeNode<T> SivanRightRotate(TreeNode<T> *node);
+
+    TreeNode<T> SivanLeftRotate(TreeNode<T> *node);
 
     void PrintPreOrder();
 
@@ -351,15 +371,7 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
             iRoot->setLeft(ins);
             ins->setParent(iRoot);
         }
-        // Now fixing balance issues
-        if (Height(iRoot->getLeft()) - Height(iRoot->getRight()) == 2) {
-            TreeNode<T> *check = iRoot->getLeft();
-            if (ins->getKey() < check->getKey()) {
-                RotateLeftOnce(iRoot);
-            } else {
-                RotateLeftTwice(iRoot);
-            }
-        }
+
     } else {
         if (iRoot->getRight()) {
             // iRoot has a right child, continue searching for correct spot to place
@@ -369,17 +381,85 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
             iRoot->setRight(ins);
             ins->setParent(iRoot);
         }
-        // Now fixing balance issues
-        if (Height(iRoot->getRight()) - Height(iRoot->getLeft()) == 2) {
-            TreeNode<T> *check = iRoot->getRight();
-            if (ins->getKey() > check->getKey()) {
-                RotateRightOnce(iRoot);
-            } else {
-                RotateRightTwice(iRoot);
-            }
-        }
+    }
+
+    //update heights
+    TreeNode<T> *subRightTree = root->getRight();
+    TreeNode<T> *subLeftTree = root->getLeft();
+    root->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
+
+    int balance = root->getBalance(root);
+    //balancing the tree if necessary
+    //LL case
+    if(balance>1 && ins->getKey() < subLeftTree->getKey()){
+        SivanRightRotate(root);
+    }
+
+    //RR case
+    if(balance<-1 && ins->getKey() > subLeftTree->getKey()){
+        SivanLeftRotate(root);
+    }
+
+    //LR case
+    if(balance>1 && ins->getKey() > subLeftTree->getKey()){
+            root->setLeft(SivanLeftRotate(subLeftTree));
+            SivanRightRotate(root);
+    }
+
+    //RL case
+    if(balance < -1 && ins->getKey() < subRightTree->getKey()){
+        root->setRight(SivanRightRotate(root->getRight()));
+        SivanLeftRotate(root);
     }
 }
+
+
+//mor's version
+//template<class T>
+//void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
+//    if (iRoot == nullptr) {
+//        return;
+//    }
+//    // Before using insert we already check if the key exists in the tree,
+//    // so no need to check this here.
+//    if (ins->getKey() < iRoot->getKey()) {
+//        if (iRoot->getLeft()) {
+//            // iRoot has a left child, continue searching for correct spot to place
+//            // new node
+//            InsertNode(iRoot->getLeft(), ins);
+//        } else {
+//            iRoot->setLeft(ins);
+//            ins->setParent(iRoot);
+//        }
+//        // Now fixing balance issues
+//        if (Height(iRoot->getLeft()) - Height(iRoot->getRight()) == 2) {
+//            TreeNode<T> *check = iRoot->getLeft();
+//            if (ins->getKey() < check->getKey()) {
+//                RotateLeftOnce(iRoot);
+//            } else {
+//                RotateLeftTwice(iRoot);
+//            }
+//        }
+//    } else {
+//        if (iRoot->getRight()) {
+//            // iRoot has a right child, continue searching for correct spot to place
+//            // new now
+//            InsertNode(iRoot->getRight(), ins);
+//        } else {
+//            iRoot->setRight(ins);
+//            ins->setParent(iRoot);
+//        }
+//        // Now fixing balance issues
+//        if (Height(iRoot->getRight()) - Height(iRoot->getLeft()) == 2) {
+//            TreeNode<T> *check = iRoot->getRight();
+//            if (ins->getKey() > check->getKey()) {
+//                RotateRightOnce(iRoot);
+//            } else {
+//                RotateRightTwice(iRoot);
+//            }
+//        }
+//    }
+//}
 
 template<class T>
 int Tree<T>::Height(TreeNode<T> *root) const {
@@ -443,26 +523,33 @@ StatusType Tree<T>::Remove(int key) {
         }
     }
 
+    //update heights
+    TreeNode<T> *subLeftTree = root->getLeft();
+    TreeNode<T> *subRightTree = root->getRight();
+    root->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
+
     int balance = root->getBalance(root);
 
     //LL case
     if (balance > 1 && root->getBalance(root->getLeft()) >= 0) {
-        RotateRightOnce(root);
+        SivanRightRotate(root);
     }
 
     //LR case
     if (balance > 1 && root->getBalance(root->getLeft()) < 0) {
-        RotateLeftTwice(root);
+        root->setLeft(SivanLeftRotate(root));
+        SivanRightRotate(root);
     }
 
     //RR case
     if (balance < -1 & root->getBalance(root->getRight()) <= 0) {
-        RotateRightOnce(root);
+        SivanLeftRotate(root);
     }
 
     //RL case
     if (balance < -1 && root->getBalance(root->getRight()) > 0) {
-        return RotateRightTwice(root);
+        root->setRight(SivanRightRotate(root->getRight()));
+        SivanLeftRotate(root);
     }
 
     return SUCCESS;
@@ -482,6 +569,30 @@ template<class T>
 void Tree<T>::PrintPostOrder() {
     TreeNode<T>::printPostOrder(root);
 }
+
+template<class T>
+TreeNode<T> Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
+    TreeNode<T> *y = node->getRight();
+    TreeNode<T> *t = y->getLeft();
+
+    y->setLeft(node);
+    node->setRight(t);
+
+    return y;
+
+}
+
+template<class T>
+TreeNode<T> Tree<T>::SivanRightRotate(TreeNode<T> *node) {
+    TreeNode<T> *x = node->getLeft();
+    TreeNode<T> *t = x->getRight();
+
+    x->setRight(t);
+    node->setLeft(t);
+
+    return x;
+}
+
 
 #endif //TREETEST2_TREE_H
 
