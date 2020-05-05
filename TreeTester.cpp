@@ -571,6 +571,39 @@ void TestRandomInput() {
     std::cout << "Random Input Test FINISH" << std::endl;
 }
 
+void TestFind() {
+    std::cout << "Find Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(5, new int(5));
+    TreeNode<int>* test = tree->Find(5);
+    if (test) {
+        std::cout << "found node with key: " << test->getKey() << std::endl;
+    } else {
+        std::cout << "can't find node with key: " << test->getKey() << std::endl;
+    }
+    test = tree->Find(3);
+    if (test) {
+        std::cout << "found node with key: " << test->getKey() << std::endl;
+    } else {
+        std::cout << "can't find node with given key" << std::endl;
+    }
+    tree->Insert(3, new int(3));
+    tree->Insert(6, new int(6));
+    tree->Insert(2, new int(2));
+    tree->Insert(4, new int(4));
+    tree->Remove(5);
+    test = tree->Find(5);
+    if (test) {
+        std::cout << "found node with key: " << test->getKey() << std::endl;
+    } else {
+        std::cout << "can't find node with given key" << std::endl;
+    }
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "Find Test FINISH" << std::endl;
+}
+
 int main() {
 //    TestLL();
 //    TestLR();
@@ -592,9 +625,10 @@ int main() {
 //    TestRemoveNodeCauseRRRR();
 //    TestRemoveNodeCauseRLLL();
 //    TestRemoveNodeCauseLRLL();
-    TestRemoveNodeCauseLR2();
+//    TestRemoveNodeCauseLR2();
 //    TestRemoveNodeCauseLR3();
 //    TestRandomInput();
+    TestFind();
     return 0;
 }
 
