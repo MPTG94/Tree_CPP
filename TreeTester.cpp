@@ -604,6 +604,66 @@ void TestFind() {
     std::cout << "Find Test FINISH" << std::endl;
 }
 
+void TestCreateAndRemoveSoloRoot() {
+    std::cout << "Create and Remove only root Test START" << std::endl;
+    Tree<int> tree = Tree<int>();
+    tree.Insert(1, new int(5));
+    tree.Remove(1);
+    if (tree.Find(1) == nullptr) {
+        std::cout << "The tree is now empty" << std::endl;
+    }
+    std::cout << "Create and Remove only root Test FINISH" << std::endl;
+}
+
+void TestCreateRootAndRightChildRemoveRoot() {
+    std::cout << "Create root and right child Remove only root Test START" << std::endl;
+    Tree<int> tree = Tree<int>();
+    tree.Insert(1, new int(5));
+    tree.Insert(2, new int(5));
+    tree.Remove(1);
+    if (tree.Find(1) == nullptr) {
+        std::cout << "The previous root is deleted" << std::endl;
+    }
+    if (tree.Find(2) != nullptr) {
+        std::cout << "The tree has a new correct root" << std::endl;
+    }
+    std::cout << "Create root and right child Remove only root Test FINISH" << std::endl;
+}
+
+void TestCreateRootAndLeftChildRemoveRoot() {
+    std::cout << "Create root and left child Remove only root Test START" << std::endl;
+    Tree<int> tree = Tree<int>();
+    tree.Insert(2, new int(5));
+    tree.Insert(1, new int(5));
+    tree.Remove(2);
+    if (tree.Find(2) == nullptr) {
+        std::cout << "The previous root is deleted" << std::endl;
+    }
+    if (tree.Find(1) != nullptr) {
+        std::cout << "The tree has a new correct root" << std::endl;
+    }
+    std::cout << "Create root and left child Remove only root Test FINISH" << std::endl;
+}
+
+void TestCreateRootAndTwoChildrenRemoveRoot() {
+    std::cout << "Create root and two children Remove only root Test START" << std::endl;
+    Tree<int> tree = Tree<int>();
+    tree.Insert(2, new int(5));
+    tree.Insert(1, new int(5));
+    tree.Insert(3, new int(5));
+    tree.Remove(2);
+    if (tree.Find(2) == nullptr) {
+        std::cout << "The previous root is deleted" << std::endl;
+    }
+    if (tree.Find(1) != nullptr) {
+        std::cout << "One of the children still exists" << std::endl;
+    }
+    if (tree.Find(3) != nullptr) {
+        std::cout << "Both of the children still exist" << std::endl;
+    }
+    std::cout << "Create root and two children Remove only root Test FINISH" << std::endl;
+}
+
 int main() {
     TestLL();
     TestLR();
@@ -627,8 +687,12 @@ int main() {
     TestRemoveNodeCauseLRLL();
     TestRemoveNodeCauseLR2();
     TestRemoveNodeCauseLR3();
-//    TestRandomInput();
     TestFind();
-    return 0;
+    TestCreateAndRemoveSoloRoot();
+    TestCreateRootAndRightChildRemoveRoot();
+    TestCreateRootAndLeftChildRemoveRoot();
+    TestCreateRootAndTwoChildrenRemoveRoot();
+
+//    TestRandomInput();    return 0;
 }
 

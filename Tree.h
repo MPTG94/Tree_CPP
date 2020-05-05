@@ -445,8 +445,10 @@ int Tree<T>::Height(TreeNode<T> *root) const {
 
 template<class T>
 Tree<T>::~Tree() {
-    delete root;
-    root = nullptr;
+    if (root) {
+        delete root;
+        root = nullptr;
+    }
 }
 
 template<class T>
@@ -484,39 +486,47 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
 
             if (temp == nullptr) {
                 // no child
-                if (parentTemp->getKey() > key) {
-                    // the node to be deleted is the left son
-                    parentTemp->setLeft(nullptr);
-                } else {
-                    // the node to be deleted is the right son
-                    parentTemp->setRight(nullptr);
+                if (parentTemp) {
+                    if (parentTemp->getKey() > key) {
+                        // the node to be deleted is the left son
+                        parentTemp->setLeft(nullptr);
+                    } else {
+                        // the node to be deleted is the right son
+                        parentTemp->setRight(nullptr);
+                    }
                 }
-                // We removed a child with no children, we removed his pointer
+                // We removed a node with no children, we removed his pointer
                 // from his parent node, now we can safely delete him.
+                if (trueRoot) {
+                    this->root = nullptr;
+                }
                 iRoot->setLeft(nullptr);
                 iRoot->setRight(nullptr);
-                iRoot->removeValue();
                 delete iRoot;
                 iRoot = nullptr;
                 return;
             } else {
                 // one child case
-                temp->setParent(parentTemp);
-                if (parentTemp->getKey() > key) {
-                    // The node to be deleted is the left son
-                    // connecting his only child to the left side of the original parent
-                    parentTemp->setLeft(temp);
+                if (parentTemp) {
+                    temp->setParent(parentTemp);
+                    if (parentTemp->getKey() > key) {
+                        // The node to be deleted is the left son
+                        // connecting his only child to the left side of the original parent
+                        parentTemp->setLeft(temp);
+                    } else {
+                        // The node to be deleted is the right son
+                        // connecting his only child to the right side of the original parent
+                        parentTemp->setRight(temp);
+                    }
                 } else {
-                    // The node to be deleted is the right son
-                    // connecting his only child to the right side of the original parent
-                    parentTemp->setRight(temp);
+                    this->root = temp;
+                    temp->setParent(nullptr);
                 }
-                // We removed a child with one child, we removed his pointer
+                // We removed a node with one child, we removed his pointer
                 // from his parent node, and set his child as the new child of his parent
                 // now we can safely delete him.
                 iRoot->setLeft(nullptr);
                 iRoot->setRight(nullptr);
-                iRoot->removeValue();
                 delete iRoot;
                 iRoot = nullptr;
                 return;
@@ -527,6 +537,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
             // Replacing the key and value of the node we want to delete with his successor
             iRoot->setKey(temp->getKey());
             iRoot->setValue(temp->getValue());
+            temp->removeValue();
             // Removing the successor from his original place
             RemoveNode(iRoot->getRight(), temp->getKey());
         }
