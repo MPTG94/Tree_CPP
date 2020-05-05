@@ -302,17 +302,9 @@ public:
 
     TreeNode<T> *Find(int key);
 
-    void RotateLeftOnce(TreeNode<T> *node);
+    TreeNode<T> *RightRotate(TreeNode<T> *node);
 
-    void RotateLeftTwice(TreeNode<T> *node);
-
-    void RotateRightOnce(TreeNode<T> *node);
-
-    void RotateRightTwice(TreeNode<T> *node);
-
-    TreeNode<T> *SivanRightRotate(TreeNode<T> *node);
-
-    TreeNode<T> *SivanLeftRotate(TreeNode<T> *node);
+    TreeNode<T> *LeftRotate(TreeNode<T> *node);
 
     void PrintPreOrder();
 
@@ -332,34 +324,6 @@ TreeNode<T> *Tree<T>::Find(int key) {
         return nullptr;
     }
     return TreeNode<T>::find(root, key);
-}
-
-template<class T>
-void Tree<T>::RotateLeftOnce(TreeNode<T> *node) {
-    TreeNode<T> *otherNode = node->getLeft();
-    node->setLeft(otherNode->getRight());
-    otherNode->setRight(node);
-    node = otherNode;
-}
-
-template<class T>
-void Tree<T>::RotateLeftTwice(TreeNode<T> *node) {
-    RotateRightOnce(node->getLeft());
-    RotateLeftOnce(node);
-}
-
-template<class T>
-void Tree<T>::RotateRightOnce(TreeNode<T> *node) {
-    TreeNode<T> *otherNode = node->getRight();
-    node->setRight(otherNode->getLeft());
-    otherNode->setLeft(node);
-    node = otherNode;
-}
-
-template<class T>
-void Tree<T>::RotateRightTwice(TreeNode<T> *node) {
-    RotateLeftOnce(node->getRight());
-    RotateRightOnce(node);
 }
 
 template<class T>
@@ -428,24 +392,24 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     // balancing the tree if necessary
     // LL case
     if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
-        iRoot = SivanRightRotate(iRoot);
+        iRoot = RightRotate(iRoot);
     }
 
     // RR case
     if (balance < -1 && ins->getKey() > subRightTree->getKey()) {
-        iRoot = SivanLeftRotate(iRoot);
+        iRoot = LeftRotate(iRoot);
     }
 
     // LR case
     if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
-        iRoot->setLeft(SivanLeftRotate(iRoot->getLeft()));
-        iRoot = SivanRightRotate(iRoot);
+        iRoot->setLeft(LeftRotate(iRoot->getLeft()));
+        iRoot = RightRotate(iRoot);
     }
 
     // RL case
     if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
-        iRoot->setRight(SivanRightRotate(iRoot->getRight()));
-        iRoot = SivanLeftRotate(iRoot);
+        iRoot->setRight(RightRotate(iRoot->getRight()));
+        iRoot = LeftRotate(iRoot);
     }
     if (trueRoot) {
         this->root = iRoot;
@@ -577,24 +541,24 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
 
     // LL case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
-        iRoot = SivanRightRotate(iRoot);
+        iRoot = RightRotate(iRoot);
     }
 
     // LR case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) < 0) {
-        iRoot->setLeft(SivanLeftRotate(iRoot->getLeft()));
-        iRoot = SivanRightRotate(iRoot);
+        iRoot->setLeft(LeftRotate(iRoot->getLeft()));
+        iRoot = RightRotate(iRoot);
     }
 
     // RR case
     if (balance < -1 & TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
-        iRoot = SivanLeftRotate(iRoot);
+        iRoot = LeftRotate(iRoot);
     }
 
     // RL case
     if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) > 0) {
-        iRoot->setRight(SivanRightRotate(iRoot->getRight()));
-        iRoot = SivanLeftRotate(iRoot);
+        iRoot->setRight(RightRotate(iRoot->getRight()));
+        iRoot = LeftRotate(iRoot);
     }
     if (trueRoot) {
         this->root = iRoot;
@@ -626,7 +590,7 @@ void Tree<T>::PrintPostOrder() {
 }
 
 template<class T>
-TreeNode<T> *Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
+TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
     TreeNode<T> *y = node->getRight();
     TreeNode<T> *t = y->getLeft();
 
@@ -651,7 +615,7 @@ TreeNode<T> *Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
 }
 
 template<class T>
-TreeNode<T> *Tree<T>::SivanRightRotate(TreeNode<T> *node) {
+TreeNode<T> *Tree<T>::RightRotate(TreeNode<T> *node) {
     TreeNode<T> *x = node->getLeft();
     TreeNode<T> *t = x->getRight();
 
