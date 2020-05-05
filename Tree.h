@@ -59,7 +59,14 @@ public:
 
     TreeNode<T> *getNext();
 
-    int getBalance(TreeNode<T> *node);
+    static int getBalance(TreeNode<T> *node) {
+        if (node == nullptr) {
+            return 0;
+        }
+        TreeNode<T> *iLeft = node->getLeft();
+        TreeNode<T> *iRight = node->getRight();
+        return iLeft->getHeight() - iRight->getHeight();
+    }
 
     static void printPreOrder(TreeNode<T> *node);
 
@@ -191,16 +198,6 @@ void TreeNode<T>::setKey(int gKey) {
 }
 
 template<class T>
-int TreeNode<T>::getBalance(TreeNode<T> *node) {
-    if (node == nullptr) {
-        return 0;
-    }
-    TreeNode<T>* iLeft = node->getLeft();
-    TreeNode<T>* iRight = node->getRight();
-    return iLeft->getHeight() - iRight->getHeight();
-}
-
-template<class T>
 void TreeNode<T>::setHeight(int height) {
     this->nodeHeight = height;
 
@@ -266,6 +263,8 @@ private:
 
     void InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins);
 
+    void RemoveNode(TreeNode<T> *iRoot, int key);
+
 public:
     Tree();
 
@@ -287,9 +286,9 @@ public:
 
     void RotateRightTwice(TreeNode<T> *node);
 
-    TreeNode<T> SivanRightRotate(TreeNode<T> *node);
+    TreeNode<T> *SivanRightRotate(TreeNode<T> *node);
 
-    TreeNode<T> SivanLeftRotate(TreeNode<T> *node);
+    TreeNode<T> *SivanLeftRotate(TreeNode<T> *node);
 
     void PrintPreOrder();
 
@@ -385,82 +384,34 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     }
 
     //update heights
-    TreeNode<T> *subRightTree = root->getRight();
-    TreeNode<T> *subLeftTree = root->getLeft();
-    root->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
+    TreeNode<T> *subRightTree = iRoot->getRight();
+    TreeNode<T> *subLeftTree = iRoot->getLeft();
+    iRoot->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
 
-    int balance = root->getBalance(root);
+    int balance = TreeNode<T>::getBalance(iRoot);
     //balancing the tree if necessary
     //LL case
     if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
-        SivanRightRotate(root);
+        SivanRightRotate(iRoot);
     }
 
     //RR case
     if (balance < -1 && ins->getKey() > subLeftTree->getKey()) {
-        SivanLeftRotate(root);
+        SivanLeftRotate(iRoot);
     }
 
     //LR case
     if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
-        root->setLeft(SivanLeftRotate(subLeftTree));
-        SivanRightRotate(root);
+        iRoot->setLeft(SivanLeftRotate(subLeftTree));
+        SivanRightRotate(iRoot);
     }
 
     //RL case
     if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
-        root->setRight(SivanRightRotate(root->getRight()));
-        SivanLeftRotate(root);
+        iRoot->setRight(SivanRightRotate(iRoot->getRight()));
+        SivanLeftRotate(iRoot);
     }
 }
-
-
-//mor's version
-//template<class T>
-//void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
-//    if (iRoot == nullptr) {
-//        return;
-//    }
-//    // Before using insert we already check if the key exists in the tree,
-//    // so no need to check this here.
-//    if (ins->getKey() < iRoot->getKey()) {
-//        if (iRoot->getLeft()) {
-//            // iRoot has a left child, continue searching for correct spot to place
-//            // new node
-//            InsertNode(iRoot->getLeft(), ins);
-//        } else {
-//            iRoot->setLeft(ins);
-//            ins->setParent(iRoot);
-//        }
-//        // Now fixing balance issues
-//        if (Height(iRoot->getLeft()) - Height(iRoot->getRight()) == 2) {
-//            TreeNode<T> *check = iRoot->getLeft();
-//            if (ins->getKey() < check->getKey()) {
-//                RotateLeftOnce(iRoot);
-//            } else {
-//                RotateLeftTwice(iRoot);
-//            }
-//        }
-//    } else {
-//        if (iRoot->getRight()) {
-//            // iRoot has a right child, continue searching for correct spot to place
-//            // new now
-//            InsertNode(iRoot->getRight(), ins);
-//        } else {
-//            iRoot->setRight(ins);
-//            ins->setParent(iRoot);
-//        }
-//        // Now fixing balance issues
-//        if (Height(iRoot->getRight()) - Height(iRoot->getLeft()) == 2) {
-//            TreeNode<T> *check = iRoot->getRight();
-//            if (ins->getKey() > check->getKey()) {
-//                RotateRightOnce(iRoot);
-//            } else {
-//                RotateRightTwice(iRoot);
-//            }
-//        }
-//    }
-//}
 
 template<class T>
 int Tree<T>::Height(TreeNode<T> *root) const {
@@ -481,79 +432,105 @@ Tree<T>::~Tree() {
 
 template<class T>
 StatusType Tree<T>::Remove(int key) {
-    //called find before, know that a matching key exist
-    if (root == nullptr) {
+    if (!root) {
+        // Tree is empty, setting new node as first node
         return FAILURE;
-    } else if (root->getKey() > key) {
-        //should search at the left side
-        this->getLeft().remove(key);
-    } else if (root->getKey() < key) {
-        //should search at the right side
-        this->getRight.Remove(key);
     } else {
-        //find a matching key :)
-        if (root->getLeft() == nullptr || root->getRight() == nullptr) {
-            TreeNode<T> temp = root->getLeft() ? root->getLeft() : root->findMin();
-            TreeNode<T> fatherTemp = root->getParent();
+        RemoveNode(root, key);
+    }
+    return SUCCESS;
+
+
+}
+
+template<class T>
+void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
+    // called find before, know that a matching key exist
+    if (iRoot->getKey() > key) {
+        // should search at the left side
+        RemoveNode(iRoot->getLeft(), key);
+    } else if (iRoot->getKey() < key) {
+        // should search at the right side
+        RemoveNode(iRoot->getRight(), key);
+    } else {
+        // find a matching key :)
+        if (iRoot->getLeft() == nullptr || iRoot->getRight() == nullptr) {
+            // Node has either 1 child or none
+            TreeNode<T>* temp = iRoot->getLeft() ? iRoot->getLeft() : iRoot->getRight();
+            TreeNode<T>* parentTemp = iRoot->getParent();
 
             if (temp == nullptr) {
-                //no child
-                if (root->getKey() > key) {
-                    //the node to be deleted is the right son
-                    fatherTemp.setLeft(nullptr);
+                // no child
+                if (parentTemp->getKey() > key) {
+                    // the node to be deleted is the left son
+                    parentTemp->setLeft(nullptr);
                 } else {
-                    temp.setRight(nullptr);
+                    // the node to be deleted is the right son
+                    parentTemp->setRight(nullptr);
                 }
-                delete root;
+                // We removed a child with no children, we removed his pointer
+                // from his parent node, now we can safely delete him.
+                delete iRoot;
+                iRoot = nullptr;
             } else {
-                //one child case
-                temp.setParent(root->getParent());
-                if (root->getKey() > key) {
-                    fatherTemp.setLeft(temp);
+                // one child case
+                temp->setParent(parentTemp);
+                if (parentTemp->getKey() > key) {
+                    // The node to be deleted is the left son
+                    // connecting his only child to the left side of the original parent
+                    parentTemp->setLeft(temp);
                 } else {
-                    fatherTemp.setRight(temp);
+                    // The node to be deleted is the right son
+                    // connecting his only child to the right side of the original parent
+                    parentTemp->setRight(temp);
                 }
-                delete root;
+                // We removed a child with one child, we removed his pointer
+                // from his parent node, and set his child as the new child of his parent
+                // now we can safely delete him.
+                delete iRoot;
+                iRoot = nullptr;
             }
         } else {
-            //node with 2 children
-            TreeNode<T> temp = root->findMin(root->getRight());
-            root->setKey(temp.getKey());
-            root->setValue(temp.getValue());
-            Remove(temp.getKey());
+            // node with 2 children case
+            TreeNode<T> temp = iRoot->findMin(iRoot->getRight());
+            // Replacing the key and value of the node we want to delete with his successor
+            iRoot->setKey(temp.getKey());
+            iRoot->setValue(temp.getValue());
+            // Removing the successor from his original place
+            RemoveNode(iRoot->getRight(), temp.getKey());
         }
     }
 
-    //update heights
-    TreeNode<T> *subLeftTree = root->getLeft();
-    TreeNode<T> *subRightTree = root->getRight();
-    root->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
+    // rebalancing tree
+    TreeNode<T> *subLeftTree = iRoot->getLeft();
+    TreeNode<T> *subRightTree = iRoot->getRight();
+    // Setting the new height of our removed/moved node
+    iRoot->setHeight(1 + max(subRightTree->getHeight(), subLeftTree->getHeight()));
 
-    int balance = root->getBalance(root);
+    // Calculating the new balance factor
+    int balance = TreeNode<T>::getBalance(iRoot);
 
-    //LL case
-    if (balance > 1 && root->getBalance(root->getLeft()) >= 0) {
-        SivanRightRotate(root);
+    // LL case
+    if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
+        SivanRightRotate(iRoot);
     }
 
-    //LR case
-    if (balance > 1 && root->getBalance(root->getLeft()) < 0) {
-        root->setLeft(SivanLeftRotate(root));
-        SivanRightRotate(root);
+    // LR case
+    if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) < 0) {
+        iRoot->setLeft(SivanLeftRotate(iRoot));
+        SivanRightRotate(iRoot);
     }
 
-    //RR case
-    if (balance < -1 & root->getBalance(root->getRight()) <= 0) {
-        SivanLeftRotate(root);
+    // RR case
+    if (balance < -1 & TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
+        SivanLeftRotate(iRoot);
     }
 
-    //RL case
-    if (balance < -1 && root->getBalance(root->getRight()) > 0) {
-        root->setRight(SivanRightRotate(root->getRight()));
-        SivanLeftRotate(root);
+    // RL case
+    if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) > 0) {
+        iRoot->setRight(SivanRightRotate(iRoot->getRight()));
+        SivanLeftRotate(iRoot);
     }
-
-    return SUCCESS;
 }
 
 template<class T>
@@ -572,7 +549,7 @@ void Tree<T>::PrintPostOrder() {
 }
 
 template<class T>
-TreeNode<T> Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
+TreeNode<T> *Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
     TreeNode<T> *y = node->getRight();
     TreeNode<T> *t = y->getLeft();
 
@@ -584,7 +561,7 @@ TreeNode<T> Tree<T>::SivanLeftRotate(TreeNode<T> *node) {
 }
 
 template<class T>
-TreeNode<T> Tree<T>::SivanRightRotate(TreeNode<T> *node) {
+TreeNode<T> *Tree<T>::SivanRightRotate(TreeNode<T> *node) {
     TreeNode<T> *x = node->getLeft();
     TreeNode<T> *t = x->getRight();
 
