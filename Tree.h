@@ -449,10 +449,10 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     }
     if (trueRoot) {
         this->root = iRoot;
-        TreeNode<T>* temp = this->root;
+        TreeNode<T> *temp = this->root;
         temp->setParent(nullptr);
     } else {
-        TreeNode<T>* temp = iRoot->getParent();
+        TreeNode<T> *temp = iRoot->getParent();
         if (temp->getKey() > iRoot->getKey()) {
             temp->setLeft(iRoot);
         } else {
@@ -550,7 +550,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
             }
         } else {
             // node with 2 children case
-            TreeNode<T>* temp = iRoot->findMin(iRoot->getRight());
+            TreeNode<T> *temp = iRoot->findMin(iRoot->getRight());
             // Replacing the key and value of the node we want to delete with his successor
             iRoot->setKey(temp->getKey());
             iRoot->setValue(temp->getValue());
@@ -598,10 +598,10 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
     }
     if (trueRoot) {
         this->root = iRoot;
-        TreeNode<T>* temp = this->root;
+        TreeNode<T> *temp = this->root;
         temp->setParent(nullptr);
     } else {
-        TreeNode<T>* temp = iRoot->getParent();
+        TreeNode<T> *temp = iRoot->getParent();
         if (temp->getKey() > iRoot->getKey()) {
             temp->setLeft(iRoot);
         } else {
