@@ -38,6 +38,8 @@ public:
 
     void setValue(T *value);
 
+    void removeValue();
+
     TreeNode<T> *getLeft();
 
     void setLeft(TreeNode<T> *nLeft);
@@ -281,6 +283,11 @@ void TreeNode<T>::printPostOrder(TreeNode<T> *node) {
 }
 
 template<class T>
+void TreeNode<T>::removeValue() {
+    this->value = nullptr;
+}
+
+template<class T>
 class Tree {
 private:
     TreeNode<T> *root;
@@ -488,6 +495,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
                 // from his parent node, now we can safely delete him.
                 iRoot->setLeft(nullptr);
                 iRoot->setRight(nullptr);
+                iRoot->removeValue();
                 delete iRoot;
                 iRoot = nullptr;
                 return;
@@ -508,6 +516,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
                 // now we can safely delete him.
                 iRoot->setLeft(nullptr);
                 iRoot->setRight(nullptr);
+                iRoot->removeValue();
                 delete iRoot;
                 iRoot = nullptr;
                 return;

@@ -592,9 +592,9 @@ int main() {
 //    TestRemoveNodeCauseRRRR();
 //    TestRemoveNodeCauseRLLL();
 //    TestRemoveNodeCauseLRLL();
-//    TestRemoveNodeCauseLR2();
+    TestRemoveNodeCauseLR2();
 //    TestRemoveNodeCauseLR3();
-    TestRandomInput();
+//    TestRandomInput();
     return 0;
 }
 
