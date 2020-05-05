@@ -438,7 +438,7 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
 
     // LR case
     if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
-        iRoot->setLeft(SivanLeftRotate(subLeftTree));
+        iRoot->setLeft(SivanLeftRotate(iRoot->getLeft()));
         iRoot = SivanRightRotate(iRoot);
     }
 
@@ -577,24 +577,24 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
 
     // LL case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
-        SivanRightRotate(iRoot);
+        iRoot = SivanRightRotate(iRoot);
     }
 
     // LR case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) < 0) {
-        iRoot->setLeft(SivanLeftRotate(iRoot));
-        SivanRightRotate(iRoot);
+        iRoot->setLeft(SivanLeftRotate(iRoot->getLeft()));
+        iRoot = SivanRightRotate(iRoot);
     }
 
     // RR case
     if (balance < -1 & TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
-        SivanLeftRotate(iRoot);
+        iRoot = SivanLeftRotate(iRoot);
     }
 
     // RL case
     if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) > 0) {
         iRoot->setRight(SivanRightRotate(iRoot->getRight()));
-        SivanLeftRotate(iRoot);
+        iRoot = SivanLeftRotate(iRoot);
     }
     if (trueRoot) {
         this->root = iRoot;

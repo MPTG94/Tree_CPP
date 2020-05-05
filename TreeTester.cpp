@@ -276,6 +276,301 @@ void TestRemoveNodeWithSuccessorNonNeighbour() {
     std::cout << "replace node with successor non neighbour Test FINISH" << std::endl;
 }
 
+void TestRemoveNodeCauseLR() {
+    //node deletion causing LR case9
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause LR Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(7, new int(7));
+    tree->Insert(2, new int(2));
+    tree->Insert(8, new int(8));
+    tree->Insert(1, new int(1));
+    tree->Insert(4, new int(4));
+    tree->Insert(9, new int(9));
+    tree->Insert(3, new int(3));
+    tree->Remove(9);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause LR Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseLL() {
+    //node deletion causing LL case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause LL Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(7, new int(7));
+    tree->Insert(3, new int(3));
+    tree->Insert(8, new int(8));
+    tree->Insert(2, new int(2));
+    tree->Insert(4, new int(4));
+    tree->Insert(9, new int(9));
+    tree->Insert(1, new int(1));
+    tree->Remove(9);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause LL Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseRR() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause RR Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(3, new int(3));
+    tree->Insert(2, new int(2));
+    tree->Insert(8, new int(8));
+    tree->Insert(7, new int(7));
+    tree->Insert(1, new int(1));
+    tree->Insert(9, new int(9));
+    tree->Insert(10, new int(10));
+    tree->Remove(1);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause RR Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseRL() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause RL Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(3, new int(3));
+    tree->Insert(2, new int(2));
+    tree->Insert(13, new int(13));
+    tree->Insert(7, new int(7));
+    tree->Insert(1, new int(1));
+    tree->Insert(14, new int(14));
+    tree->Insert(10, new int(10));
+    tree->Remove(1);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause RL Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseRLRR() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause RL RR Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(9, new int(9));
+    tree->Insert(3, new int(3));
+    tree->Insert(15, new int(15));
+    tree->Insert(1, new int(1));
+    tree->Insert(7, new int(7));
+    tree->Insert(13, new int(13));
+    tree->Insert(19, new int(19));
+    tree->Insert(5, new int(5));
+    tree->Insert(11, new int(11));
+    tree->Insert(17, new int(17));
+    tree->Insert(21, new int(21));
+    tree->Insert(23, new int(23));
+    tree->Remove(1);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause RL RR Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseRRRR() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause RR RR Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(9, new int(9));
+    tree->Insert(3, new int(3));
+    tree->Insert(15, new int(15));
+    tree->Insert(1, new int(1));
+    tree->Insert(7, new int(7));
+    tree->Insert(13, new int(13));
+    tree->Insert(19, new int(19));
+    tree->Insert(8, new int(8));
+    tree->Insert(11, new int(11));
+    tree->Insert(17, new int(17));
+    tree->Insert(21, new int(21));
+    tree->Insert(23, new int(23));
+    tree->Remove(1);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause RR RR Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseRLLL() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause RL LL Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(15, new int(15));
+    tree->Insert(10, new int(10));
+    tree->Insert(20, new int(20));
+    tree->Insert(8, new int(8));
+    tree->Insert(11, new int(11));
+    tree->Insert(17, new int(17));
+    tree->Insert(21, new int(21));
+    tree->Insert(7, new int(7));
+    tree->Insert(9, new int(9));
+    tree->Insert(12, new int(12));
+    tree->Insert(18, new int(18));
+    tree->Insert(6, new int(6));
+    tree->Remove(21);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause RL LL Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseLRLL() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause LR LL Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(15, new int(15));
+    tree->Insert(10, new int(10));
+    tree->Insert(20, new int(20));
+    tree->Insert(8, new int(8));
+    tree->Insert(11, new int(11));
+    tree->Insert(17, new int(17));
+    tree->Insert(22, new int(22));
+    tree->Insert(7, new int(7));
+    tree->Insert(9, new int(9));
+    tree->Insert(12, new int(12));
+    tree->Insert(21, new int(21));
+    tree->Insert(6, new int(6));
+    tree->Remove(17);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause LR LL Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseLR2() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause LR 2 Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(5, new int(5));
+    tree->Insert(3, new int(3));
+    tree->Insert(6, new int(6));
+    tree->Insert(2, new int(2));
+    tree->Insert(4, new int(4));
+    tree->Remove(5);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause LR 2 Test FINISH" << std::endl;
+}
+
+void TestRemoveNodeCauseLR3() {
+    //node deletion causing RR case10
+//	/*correct output
+//	1 BF: 0 Height: 0
+//	2 BF: 0 Height: 1
+//	3 BF: 0 Height: 0
+//	4 BF: 0 Height: 2
+//	7 BF: -1 Height: 1
+//	8 BF: 0 Height: 0*/
+    std::cout << "remove node and cause LR 3 Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(5, new int(5));
+    tree->Insert(3, new int(3));
+    tree->Insert(6, new int(6));
+    tree->Insert(2, new int(2));
+    tree->Remove(5);
+    tree->PrintInOrder();
+    delete tree;
+    std::cout << std::endl;
+    std::cout << "remove node and cause LR 3 Test FINISH" << std::endl;
+}
+
+void TestRandomInput() {
+    std::cout << "Random Input Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    std::vector<int> vector;
+    for (int i=1; i<=100; i++) vector.push_back(i);
+
+    //Randomly insert and removes nodes
+    for (int k = 0; k < 20; ++k) {
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
+        for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
+            tree->Insert(*it,new int(*it));
+
+        }
+        tree->PrintInOrder();
+        std::cout << std::endl;
+        shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
+        for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
+            tree->Remove(*it);
+            tree->PrintInOrder();
+
+        }
+        delete tree;
+        tree = new Tree<int>();
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+    std::cout << "Random Input Test FINISH" << std::endl;
+}
+
 int main() {
 //    TestLL();
 //    TestLR();
@@ -288,254 +583,18 @@ int main() {
 //    TestReplaceRootWithSuccessor();
 //    TestReplaceRootWithNonSuccessor();
 //    TestRemoveNodeWithSuccessorNeighbour();
-    TestRemoveNodeWithSuccessorNonNeighbour();
-
-//
-//	//node deletion causing LR case9
-//	/*correct output
-//	1 BF: 0 Height: 0
-//	2 BF: 0 Height: 1
-//	3 BF: 0 Height: 0
-//	4 BF: 0 Height: 2
-//	7 BF: -1 Height: 1
-//	8 BF: 0 Height: 0*/
-//	tree.addNode(7,7);
-//	tree.addNode(2,2);
-//	tree.addNode(8,8);
-//	tree.addNode(1,1);
-//	tree.addNode(4,4);
-//	tree.addNode(9,9);
-//	tree.addNode(3,3);
-//	tree.removeNode(9);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//node deletion causing LL case10
-//	/*correct output
-//	1 BF: 0 Height: 0
-//	2 BF: 1 Height: 1
-//	3 BF: 0 Height: 2
-//	4 BF: 0 Height: 0
-//	7 BF: 0 Height: 1
-//	8 BF: 0 Height: 0*/
-//	tree.addNode(7,7);
-//	tree.addNode(3,3);
-//	tree.addNode(8,8);
-//	tree.addNode(2,2);
-//	tree.addNode(4,4);
-//	tree.addNode(9,9);
-//	tree.addNode(1,1);
-//	tree.removeNode(9);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//node deletion causing RR case11
-//	/*correct output
-//	2 BF: 0 Height: 0
-//	3 BF: 0 Height: 1
-//	7 BF: 0 Height: 0
-//	8 BF: 0 Height: 2
-//	9 BF: -1 Height: 1
-//	10 BF: 0 Height: 0*/
-//	tree.addNode(3,3);
-//	tree.addNode(2,2);
-//	tree.addNode(8,8);
-//	tree.addNode(7,7);
-//	tree.addNode(1,1);
-//	tree.addNode(9,9);
-//	tree.addNode(10,10);
-//	tree.removeNode(1);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//node deletion causing RL case12
-//	/*correct output
-//	* 2 BF: 0 Height: 0
-//	3 BF: 1 Height: 1
-//	7 BF: 0 Height: 2
-//	10 BF: 0 Height: 0
-//	13 BF: 0 Height: 1
-//	14 BF: 0 Height: 0*/
-//	tree.addNode(3,3);
-//	tree.addNode(2,2);
-//	tree.addNode(13,13);
-//	tree.addNode(7,7);
-//	tree.addNode(1,1);
-//	tree.addNode(14,14);
-//	tree.addNode(10,10);
-//	tree.removeNode(1);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//double rotations RL and RR case 13
-//	/*correct output
-//	3 BF: 0 Height: 0
-//	5 BF: 0 Height: 1
-//	7 BF: 0 Height: 0
-//	9 BF: 0 Height: 2
-//	11 BF: 0 Height: 0
-//	13 BF: 1 Height: 1
-//	15 BF: 0 Height: 3
-//	17 BF: 0 Height: 0
-//	19 BF: -1 Height: 2
-//	21 BF: -1 Height: 1
-//	23 BF: 0 Height: 0*/
-//	tree.addNode(9,9);
-//	tree.addNode(3,3);
-//	tree.addNode(15,15);
-//	tree.addNode(1,1);
-//	tree.addNode(7,7);
-//	tree.addNode(13,13);
-//	tree.addNode(19,19);
-//	tree.addNode(5,5);
-//	tree.addNode(11,11);
-//	tree.addNode(17,17);
-//	tree.addNode(21,21);
-//	tree.addNode(23,23);
-//	tree.removeNode(1);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//double rotations RR and RR case 14
-//	/*correct output
-//	3 BF: 0 Height: 0
-//	7 BF: 0 Height: 1
-//	8 BF: 0 Height: 0
-//	9 BF: 0 Height: 2
-//	11 BF: 0 Height: 0
-//	13 BF: 1 Height: 1
-//	15 BF: 0 Height: 3
-//	17 BF: 0 Height: 0
-//	19 BF: -1 Height: 2
-//	21 BF: -1 Height: 1
-//	23 BF: 0 Height: 0*/
-//	tree.addNode(9,9);
-//	tree.addNode(3,3);
-//	tree.addNode(15,15);
-//	tree.addNode(1,1);
-//	tree.addNode(7,7);
-//	tree.addNode(13,13);
-//	tree.addNode(19,19);
-//	tree.addNode(8,8);
-//	tree.addNode(11,11);
-//	tree.addNode(17,17);
-//	tree.addNode(21,21);
-//	tree.addNode(23,23);
-//	tree.removeNode(1);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//double rotations RL and LL case 15
-//	/*correct output
-//	6 BF: 0 Height: 0
-//	7 BF: 1 Height: 1
-//	8 BF: 1 Height: 2
-//	9 BF: 0 Height: 0
-//	10 BF: 0 Height: 3
-//	11 BF: -1 Height: 1
-//	12 BF: 0 Height: 0
-//	15 BF: 0 Height: 2
-//	17 BF: 0 Height: 0
-//	18 BF: 0 Height: 1
-//	20 BF: 0 Height: 0
-//	 */
-//	tree.addNode(15,15);
-//	tree.addNode(10,10);
-//	tree.addNode(20,20);
-//	tree.addNode(8,8);
-//	tree.addNode(11,11);
-//	tree.addNode(17,17);
-//	tree.addNode(21,21);
-//	tree.addNode(7,7);
-//	tree.addNode(9,9);
-//	tree.addNode(12,12);
-//	tree.addNode(18,18);
-//	tree.addNode(6,6);
-//	tree.removeNode(21);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//double rotations LR and LL case 16
-//	/*correct output
-//	6 BF: 0 Height: 0
-//	7 BF: 1 Height: 1
-//	8 BF: 1 Height: 2
-//	9 BF: 0 Height: 0
-//	10 BF: 0 Height: 3
-//	11 BF: -1 Height: 1
-//	12 BF: 0 Height: 0
-//	15 BF: 0 Height: 2
-//	20 BF: 0 Height: 0
-//	21 BF: 0 Height: 1
-//	22 BF: 0 Height: 0 */
-//	tree.addNode(15,15);
-//	tree.addNode(10,10);
-//	tree.addNode(20,20);
-//	tree.addNode(8,8);
-//	tree.addNode(11,11);
-//	tree.addNode(17,17);
-//	tree.addNode(22,22);
-//	tree.addNode(7,7);
-//	tree.addNode(9,9);
-//	tree.addNode(12,12);
-//	tree.addNode(21,21);
-//	tree.addNode(6,6);
-//	tree.removeNode(17);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//delete node cause LR
-//	/*correct output
-//	 * 2 BF: 0 Height: 0
-//	3 BF: -1 Height: 2
-//	4 BF: 0 Height: 0
-//	6 BF: 1 Height: 1*/
-//
-//	tree.addNode(5,5);
-//	tree.addNode(3,3);
-//	tree.addNode(6,6);
-//	tree.addNode(2,2);
-//	tree.addNode(4,4);
-//	tree.removeNode(5);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	//delete node cause LR
-//	/*correct output
-//	 * 2 BF: 0 Height: 0
-//	3 BF: 0 Height: 1
-//	6 BF: 0 Height: 0*/
-//	tree.addNode(5,5);
-//	tree.addNode(3,3);
-//	tree.addNode(6,6);
-//	tree.addNode(2,2);
-//	tree.removeNode(5);
-//	tree.printTree();
-//	tree.treeClear();
-//
-//	std::vector<int> vector;
-//	 for (int i=1; i<=100; i++) vector.push_back(i);
-//
-//	 //Randomly insert and removes nodes
-//	 for (int k = 0; k < 20; ++k) {
-//		 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-//		 shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
-//		 for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
-//				tree.addNode(*it,*it);
-//
-//		 }
-//		 tree.printTree();
-//		 shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
-//		 for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
-//				tree.removeNode(*it);
-//				tree.printTree();
-//
-//		 }
-//		 tree.treeClear();
-//		 tree.printTree();
-//		 std::cout << '\n';
-//	}
-
+//    TestRemoveNodeWithSuccessorNonNeighbour();
+//    TestRemoveNodeCauseLR();
+//    TestRemoveNodeCauseLL();
+//    TestRemoveNodeCauseRR();
+//    TestRemoveNodeCauseRL();
+//    TestRemoveNodeCauseRLRR();
+//    TestRemoveNodeCauseRRRR();
+//    TestRemoveNodeCauseRLLL();
+//    TestRemoveNodeCauseLRLL();
+//    TestRemoveNodeCauseLR2();
+//    TestRemoveNodeCauseLR3();
+    TestRandomInput();
     return 0;
 }
 
