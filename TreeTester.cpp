@@ -545,20 +545,20 @@ void TestRandomInput() {
     std::cout << "Random Input Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     std::vector<int> vector;
-    for (int i=1; i<=100; i++) vector.push_back(i);
+    for (int i = 1; i <= 100; i++) vector.push_back(i);
 
     //Randomly insert and removes nodes
     for (int k = 0; k < 20; ++k) {
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
-        for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
-            tree->Insert(*it,new int(*it));
+        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
+        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
+            tree->Insert(*it, new int(*it));
 
         }
         tree->PrintInOrder();
         std::cout << std::endl;
-        shuffle (vector.begin(), vector.end(), std::default_random_engine(seed));
-        for (std::vector<int>::iterator it = vector.begin() ; it != vector.end(); ++it){
+        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
+        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
             tree->Remove(*it);
             tree->PrintInOrder();
 
@@ -575,7 +575,7 @@ void TestFind() {
     std::cout << "Find Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(5, new int(5));
-    TreeNode<int>* test = tree->Find(5);
+    TreeNode<int> *test = tree->Find(5);
     if (test) {
         std::cout << "found node with key: " << test->getKey() << std::endl;
     } else {
@@ -609,7 +609,7 @@ void TestCreateAndRemoveSoloRoot() {
     Tree<int> tree = Tree<int>();
     tree.Insert(1, new int(5));
     tree.Remove(1);
-    if (tree.Find(1) == nullptr) {
+    if (tree.IsEmpty()) {
         std::cout << "The tree is now empty" << std::endl;
     }
     std::cout << "Create and Remove only root Test FINISH" << std::endl;
@@ -664,6 +664,32 @@ void TestCreateRootAndTwoChildrenRemoveRoot() {
     std::cout << "Create root and two children Remove only root Test FINISH" << std::endl;
 }
 
+void TestTreeDeletionNullptr() {
+    std::cout << "Tree Deletion Reference Nullptr Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(1, new int(5));
+    TreeNode<int> *temp = tree->Find(1);
+    if (temp) {
+        std::cout << "Found node with key 1" << std::endl;
+    }
+    delete tree;
+    std::cout << "Tree Deletion Reference Nullptr Test FINISH" << std::endl;
+}
+
+void TestTreeDelete2NodesTillEmpty() {
+    std::cout << "Tree delete 2 nodes till empty Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(1, new int(5));
+    tree->Insert(2, new int(5));
+    tree->Remove(1);
+    tree->Remove(2);
+    if (tree->IsEmpty()) {
+        std::cout << "the tree is now empty" << std::endl;
+    }
+    delete tree;
+    std::cout << "Tree delete 2 nodes till empty Test FINISH" << std::endl;
+}
+
 int main() {
     TestLL();
     TestLR();
@@ -692,6 +718,8 @@ int main() {
     TestCreateRootAndRightChildRemoveRoot();
     TestCreateRootAndLeftChildRemoveRoot();
     TestCreateRootAndTwoChildrenRemoveRoot();
+    TestTreeDeletionNullptr();
+    TestTreeDelete2NodesTillEmpty();
 
 //    TestRandomInput();    return 0;
 }
