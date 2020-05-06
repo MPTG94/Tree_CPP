@@ -550,7 +550,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
     }
 
     // RR case
-    if (balance < -1 & TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
+    if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
         iRoot = LeftRotate(iRoot);
     }
 
