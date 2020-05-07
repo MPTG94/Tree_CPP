@@ -690,6 +690,25 @@ void TestTreeDelete2NodesTillEmpty() {
     std::cout << "Tree delete 2 nodes till empty Test FINISH" << std::endl;
 }
 
+void TestGetNextFunc() {
+    std::cout << "Tree Get next Test START" << std::endl;
+    Tree<int> *tree = new Tree<int>();
+    tree->Insert(1, new int(5));
+    TreeNode<int> *retrieve = tree->Find(1);
+    TreeNode<int> *next = retrieve->getNext();
+    if (!next) {
+        std::cout << "no successor" << std::endl;
+    }
+//    tree->Insert(2, new int(5));
+//    tree->Remove(1);
+//    tree->Remove(2);
+//    if (tree->IsEmpty()) {
+//        std::cout << "the tree is now empty" << std::endl;
+//    }
+    delete tree;
+    std::cout << "Tree Get next Test FINISH" << std::endl;
+}
+
 int main() {
     TestLL();
     TestLR();
@@ -720,6 +739,7 @@ int main() {
     TestCreateRootAndTwoChildrenRemoveRoot();
     TestTreeDeletionNullptr();
     TestTreeDelete2NodesTillEmpty();
+    TestGetNextFunc();
 
 //    TestRandomInput();    return 0;
 }
