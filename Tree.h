@@ -225,7 +225,7 @@ TreeNode<T> *TreeNode<T>::getNext() {
         TreeNode<T> *parent = current->getParent();
         while (parent != nullptr) {
             TreeNode<T> *child = parent->getLeft();
-            if (parent->getKey() == child->getKey()) {
+            if (child && child->getKey() == current->getKey()) {
                 // The node we started with is the left child of the current parent,
                 // which means the parent is the next node in the tree.
                 return parent;
