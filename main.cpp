@@ -1,5 +1,4 @@
 #include <iostream>
-#include <langinfo.h>
 #include "Tree.h"
 
 class myData {
