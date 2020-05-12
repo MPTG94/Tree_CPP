@@ -240,7 +240,6 @@ void AVLtree<S>::removeKey(int key, bool delete_data) {
         AVLnode<S> *node = getNodeByKey(key);
         AVLnode<S> *parent = node->parent;
         AVLnode<S> *bal_node = NULL;
-        delete node->key;
         if (delete_data)
             delete node->data;
         if ((node->left == NULL) && (node->right == NULL)) {
@@ -562,10 +561,6 @@ void AVLtree<S>::clearTree(AVLnode<S> *node) {
     if (node != NULL) {
         clearTree(node->left);
         clearTree(node->right);
-        if (node->key) {
-            delete node->key;
-        }
-
         if (node->data) {
             delete node->data;
         }
