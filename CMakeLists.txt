@@ -3,5 +3,5 @@ project(Tree)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Tree main.cpp Tree.h)
+add_executable(Tree main.cpp Tree.h AvlTree.h)
 add_executable(TreeTester TreeTester.cpp Tree.h)
