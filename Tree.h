@@ -397,7 +397,7 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
 
     int balance = TreeNode<T>::getBalance(iRoot);
     if(balance>2 || balance<-2){
-        std::cout <<"BF problem with key" << iRoot->getKey() << "BF is" << balance << std::endl;
+        std::cout <<"BF problem in adding with key " << iRoot->getKey() << " BF is " << balance << std::endl;
     }
     // balancing the tree if necessary
     // LL case
@@ -541,7 +541,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
     // Calculating the new balance factor
     int balance = TreeNode<T>::getBalance(iRoot);
     if(balance>2 || balance<-2){
-        std::cout <<"BF problem with key" << iRoot->getKey() << "BF is" << balance << std::endl;
+        std::cout <<"BF problem in removing with key " << iRoot->getKey() << "BF is " << balance << std::endl;
     }
     // LL case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
