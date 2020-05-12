@@ -341,6 +341,10 @@ StatusType Tree<T>::Insert(int key, T *value) {
         return ALLOCATION_ERROR;
     }
 
+    if(Find(key)){
+        return FAILURE;
+    }
+
     if (!root) {
         // Tree is empty, setting new node as first node
         root = nNode;
@@ -359,6 +363,7 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     if (!iRoot->getParent()) {
         trueRoot = true;
     }
+
     // Before using insert we already check if the key exists in the tree,
     // so no need to check this here.
     if (ins->getKey() < iRoot->getKey()) {
