@@ -56,7 +56,7 @@ public:
 
     void setHeight(int height);
 
-    void Rebalance();
+    TreeNode<T> *Rebalance();
 
     static TreeNode<T> *find(TreeNode<T> *node, int gKey);
 
@@ -106,13 +106,13 @@ public:
 
     int getNodeBalance();
 
-    TreeNode<T>* LeftRotation();
+    TreeNode<T> *LeftRotation();
 
-    TreeNode<T>* RightRotation();
+    TreeNode<T> *RightRotation();
 
-    TreeNode<T>* LeftRightRotation();
+    TreeNode<T> *LeftRightRotation();
 
-    TreeNode<T>* RightLeftRotation();
+    TreeNode<T> *RightLeftRotation();
 };
 
 template<class T>
@@ -305,7 +305,7 @@ class Tree {
 private:
     TreeNode<T> *root;
 
-    void InsertNode(TreeNode<T> *node, TreeNode<T> *ins);
+    TreeNode<T> *InsertNode(TreeNode<T> *node, TreeNode<T> *ins);
 
     void RemoveNode(TreeNode<T> *iRoot, int key);
 
@@ -364,18 +364,19 @@ StatusType Tree<T>::Insert(int key, T *value) {
         // Tree is empty, setting new node as first node
         root = nNode;
     } else {
-        int oldRootKey = root->getKey();
-        InsertNode(root, nNode);
-        if (oldRootKey != root->getKey()) {
-            // The root of the tree has changed, setting his parent as null
-            root->setParent(nullptr);
-        }
+//        int oldRootKey = root->getKey();
+//        InsertNode(root, nNode);
+//        if (oldRootKey != root->getKey()) {
+//            // The root of the tree has changed, setting his parent as null
+//            root->setParent(nullptr);
+//        }
+        root = InsertNode(root, nNode);
     }
     return SUCCESS;
 }
 
 template<class T>
-void TreeNode<T>::Rebalance() {
+TreeNode<T> *TreeNode<T>::Rebalance() {
     UpdateNodeHeight();
 
     int balance = getNodeBalance();
@@ -386,125 +387,161 @@ void TreeNode<T>::Rebalance() {
         int leftBalance = left->getNodeBalance();
         if (leftBalance >= 0) {
             // Need to perform a left rotation
-            TreeNode<T>* newRoot = this->RightRotation();
-            *this = *newRoot;
+            return this->LeftRotation();
         } else {
             // Need to perform a left right rotation
-            TreeNode<T>* newRoot = this->LeftRightRotation();
-            *this = *newRoot;
+            return this->LeftRightRotation();
         }
     } else if (balance == -2) {
         // The right side of the tree is heavy
         int rightBalance = right->getNodeBalance();
         if (rightBalance > 0) {
             // Need to perform a right left rotation
-            TreeNode<T>* newRoot = this->RightLeftRotation();
-            *this = *newRoot;
+            return this->RightLeftRotation();
         } else {
             // Need to perform a right rotation
-            TreeNode<T>* newRoot = this->LeftRotation();
-
-            *this = *newRoot;
+            return this->RightRotation();
         }
     }
 
     // The balance is either -1,0 or 1, so there is no need to fix
+    return this;
 }
 
 template<class T>
 TreeNode<T> *TreeNode<T>::LeftRotation() {
-    // The parent of the subtree we're rotating
-    TreeNode<T> *parent = getParent();
-    // The new root at the end of the rotation (will be the child of parent)
-    TreeNode<T> *newRoot = getRight();
-    TreeNode<T> *leftOfNewRoot = newRoot->left;
-    // Setting old root as left child
-    newRoot->left = this;
-    this->parent = newRoot;
-    // Right child of new root is already valid
-    if (parent) {
-        if (parent->key > newRoot->key) {
-            // newRoot is a left child of parent
-            parent->left = newRoot;
-            newRoot->parent = parent;
+    TreeNode<T> *tmpLeft = left;
+    left = left->right;
+    if (left != nullptr) {
+        left->parent = this;
+    }
+    tmpLeft->right = this;
+    tmpLeft->parent = this->parent;
+    if (this->parent != nullptr) {
+        if (this->parent->left != nullptr && this->parent->left->key == this->key) {
+            this->parent->left = tmpLeft;
         } else {
-            // newRoot is a right child of parent
-            parent->right = newRoot;
-            newRoot->parent = parent;
+            this->parent->right = tmpLeft;
         }
     }
-    this->right = leftOfNewRoot;
-    if (leftOfNewRoot) {
-        // If left is really not null, set this as his parent
-        leftOfNewRoot->parent = this;
-        leftOfNewRoot->UpdateNodeHeight();
-    }
-
-    // Update heights
-    TreeNode<T> *newRightOfNewRoot = newRoot->right;
-    newRightOfNewRoot->UpdateNodeHeight();
+    this->parent = tmpLeft;
     this->UpdateNodeHeight();
-    newRoot->UpdateNodeHeight();
-    if (parent) {
-        parent->UpdateNodeHeight();
-    }
-    return newRoot;
+    tmpLeft->UpdateNodeHeight();
+    return tmpLeft;
+//    // The parent of the subtree we're rotating
+//    TreeNode<T> *parent = getParent();
+//    // The new root at the end of the rotation (will be the child of parent)
+//    TreeNode<T> *newRoot = getRight();
+//    TreeNode<T> *leftOfNewRoot = newRoot->left;
+//    // Setting old root as left child
+//    newRoot->left = this;
+//    this->parent = newRoot;
+//    // Right child of new root is already valid
+//    if (parent) {
+//        if (parent->key > newRoot->key) {
+//            // newRoot is a left child of parent
+//            parent->left = newRoot;
+//            newRoot->parent = parent;
+//        } else {
+//            // newRoot is a right child of parent
+//            parent->right = newRoot;
+//            newRoot->parent = parent;
+//        }
+//    }
+//    this->right = leftOfNewRoot;
+//    if (leftOfNewRoot) {
+//        // If left is really not null, set this as his parent
+//        leftOfNewRoot->parent = this;
+//        leftOfNewRoot->UpdateNodeHeight();
+//    }
+//
+//    // Update heights
+//    TreeNode<T> *newRightOfNewRoot = newRoot->right;
+//    newRightOfNewRoot->UpdateNodeHeight();
+//    this->UpdateNodeHeight();
+//    newRoot->UpdateNodeHeight();
+//    if (parent) {
+//        parent->UpdateNodeHeight();
+//    }
+//    return newRoot;
 }
 
 template<class T>
 TreeNode<T> *TreeNode<T>::RightRotation() {
-    // The parent of the subtree we're rotating
-    TreeNode<T> *parent = getParent();
-    // The new root at the end of the rotation (will be the child of parent)
-    TreeNode<T> *newRoot = getLeft();
-    TreeNode<T> *rightOfNewRoot = newRoot->right;
-    // Setting old root as left child
-    newRoot->right = this;
-    this->parent = newRoot;
-    // Left child of new root is already valid
-    if (parent) {
-        if (parent->key > newRoot->key) {
-            // newRoot is a left child of parent
-            parent->left = newRoot;
-            newRoot->parent = parent;
+    TreeNode<T> *tmpRight = right;
+    right = right->left;
+    if (right != nullptr) {
+        right->parent = this;
+    }
+    tmpRight->left = this;
+    tmpRight->parent = this->parent;
+    if (this->parent != nullptr) {
+        if (this->parent->left != nullptr && this->parent->left->key == this->key) {
+            this->parent->left = tmpRight;
         } else {
-            // newRoot is a right child of parent
-            parent->right = newRoot;
-            newRoot->parent = parent;
+            this->parent->right = tmpRight;
         }
     }
-    this->left = rightOfNewRoot;
-    if (rightOfNewRoot) {
-        // If right is really not null, set this as his parent
-        rightOfNewRoot->parent = this;
-        rightOfNewRoot->UpdateNodeHeight();
-    }
-
-    // Update heights
-    TreeNode<T> *newLeftOfNewRoot = newRoot->right;
-    newLeftOfNewRoot->UpdateNodeHeight();
+    this->parent = tmpRight;
     this->UpdateNodeHeight();
-    newRoot->UpdateNodeHeight();
-    if (parent) {
-        parent->UpdateNodeHeight();
-    }
-    return newRoot;
+    tmpRight->UpdateNodeHeight();
+    return tmpRight;
+//    // The parent of the subtree we're rotating
+//    TreeNode<T> *parent = getParent();
+//    // The new root at the end of the rotation (will be the child of parent)
+//    TreeNode<T> *newRoot = getLeft();
+//    TreeNode<T> *rightOfNewRoot = newRoot->right;
+//    // Setting old root as left child
+//    newRoot->right = this;
+//    this->parent = newRoot;
+//    // Left child of new root is already valid
+//    if (parent) {
+//        if (parent->key > newRoot->key) {
+//            // newRoot is a left child of parent
+//            parent->left = newRoot;
+//            newRoot->parent = parent;
+//        } else {
+//            // newRoot is a right child of parent
+//            parent->right = newRoot;
+//            newRoot->parent = parent;
+//        }
+//    }
+//    this->left = rightOfNewRoot;
+//    if (rightOfNewRoot) {
+//        // If right is really not null, set this as his parent
+//        rightOfNewRoot->parent = this;
+//        rightOfNewRoot->UpdateNodeHeight();
+//    }
+//
+//    // Update heights
+//    TreeNode<T> *newLeftOfNewRoot = newRoot->right;
+//    newLeftOfNewRoot->UpdateNodeHeight();
+//    this->UpdateNodeHeight();
+//    newRoot->UpdateNodeHeight();
+//    if (parent) {
+//        parent->UpdateNodeHeight();
+//    }
+//    return newRoot;
 }
 
 template<class T>
 TreeNode<T> *TreeNode<T>::LeftRightRotation() {
-    TreeNode<T> *leftOfRoot = left;
-    leftOfRoot = leftOfRoot->LeftRotation();
-    this->RightRotation();
-    return this;
+    left->RightRotation();
+    return this->LeftRotation();
+//    TreeNode<T> *leftOfRoot = left;
+//    leftOfRoot = leftOfRoot->LeftRotation();
+//    this->RightRotation();
+//    return this;
 }
 
 template<class T>
 TreeNode<T> *TreeNode<T>::RightLeftRotation() {
-    TreeNode<T> *rightOfRoot = right;
-    rightOfRoot = rightOfRoot->RightRotation();
-    this->LeftRotation();
-    return this;
+    right->LeftRotation();
+    return this->RightRotation();
+//    TreeNode<T> *rightOfRoot = right;
+//    rightOfRoot = rightOfRoot->RightRotation();
+//    this->LeftRotation();
+//    return this;
 }
 
 template<class T>
@@ -524,7 +561,7 @@ int TreeNode<T>::getNodeBalance() {
 }
 
 template<class T>
-void Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
+TreeNode<T> *Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
     // IMPORTANT: before entering InsertNode, the Inser function calls Find,
     // to try and see if the key exists, so a case where we arrive at InsertNode
     // with an existing key shouldn't be possible
@@ -533,7 +570,9 @@ void Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
         // so it will be entered on the left side
         if (node->getLeft()) {
             // The current node has a left side, so we can go further down
-            InsertNode(node->getLeft(), ins);
+            node->setLeft(InsertNode(node->getLeft(), ins));
+            TreeNode<T>* newLeft = node->getLeft();
+            newLeft->setParent(node);
         } else {
             // the node doesn't have a left side, so we can place the new node as
             // it's new left leaf
@@ -545,7 +584,9 @@ void Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
         // so it will be entered on the right side
         if (node->getRight()) {
             // The current node has a right side, so we can go further down
-            InsertNode(node->getRight(), ins);
+            node->setRight(InsertNode(node->getRight(), ins));
+            TreeNode<T>* newRight = node->getRight();
+            newRight->setParent(node);
         } else {
             // The node doesn't have a right side, so we can place the new noe as
             // it's new right leaf
@@ -555,7 +596,7 @@ void Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
     }
 
     // We are done inserting the new node, now we need to rebalance the tree
-    node->Rebalance();
+    return node->Rebalance();
 
 //    bool trueRoot = false;
 //    if (node->getParent() == nullptr) {
