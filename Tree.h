@@ -263,7 +263,7 @@ void TreeNode<T>::printInOrder(TreeNode<T> *node) {
     printInOrder(node->getLeft());
 
     // Print the data of our node
-    std::cout << node->getKey() << ", ";
+    std::cout << node->getKey() << ", " << std::endl;
 
     // Print the right subtree
     printInOrder(node->getRight());
@@ -357,15 +357,13 @@ StatusType Tree<T>::Insert(int key, T *value) {
 
 template<class T>
 void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
-    bool trueRoot = false;
-    if (iRoot->getParent() == nullptr) {
+
+    if (iRoot == nullptr) {
         return;
     } else {
         TreeNode<T> *temp = iRoot->getParent();
     }
-    if (!iRoot->getParent()) {
-        trueRoot = true;
-    }
+
 
     // Before using insert we already check if the key exists in the tree,
     // so no need to check this here.
@@ -411,39 +409,39 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     // LL case
     if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
         iRoot = RightRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // RR case
     if (balance < -1 && ins->getKey() > subRightTree->getKey()) {
         iRoot = LeftRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // LR case
     if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
         iRoot->setLeft(LeftRotate(iRoot->getLeft()));
         iRoot = RightRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // RL case
     if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
         iRoot->setRight(RightRotate(iRoot->getRight()));
         iRoot = LeftRotate(iRoot);
-    }
-    int balance2 = TreeNode<T>::getBalance(iRoot->getParent());
-    if (balance2 > 2 || balance2 < -2) {
-        std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance2 << std::endl;
-        if (trueRoot) {
+        if (iRoot->getParent() == nullptr) {
             this->root = iRoot;
-//        } else {
-//
-//            if (temp->getKey() > iRoot->getKey()) {
-//                temp->setLeft(iRoot);
-//            } else {
-//                temp->setRight(iRoot);
-//            }
         }
     }
+
 }
+
 
 template<class T>
 StatusType Tree<T>::Remove(int key) {
@@ -617,12 +615,11 @@ TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
     if (t) {
         t->setParent(node);
     }
-    if(parentOfNode){
-        if(parentOfNode->getKey() < node->getKey()){
+    if (parentOfNode) {
+        if (parentOfNode->getKey() < node->getKey()) {
             //node is the right child
             parentOfNode->setRight(y);
-        }
-        else{
+        } else {
             parentOfNode->setLeft(y);
         }
         parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));
@@ -652,12 +649,11 @@ TreeNode<T> *Tree<T>::RightRotate(TreeNode<T> *node) {
     if (t) {
         t->setParent(node);
     }
-    if(parentOfNode){
-        if(parentOfNode->getKey() < node->getKey()){
+    if (parentOfNode) {
+        if (parentOfNode->getKey() < node->getKey()) {
             //node is the right child
             parentOfNode->setRight(x);
-        }
-        else{
+        } else {
             parentOfNode->setLeft(x);
         }
         parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));
