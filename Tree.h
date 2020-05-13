@@ -577,15 +577,6 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
     }
     if (trueRoot) {
         this->root = iRoot;
-        TreeNode<T> *temp = this->root;
-        temp->setParent(nullptr);
-    } else {
-        TreeNode<T> *temp = iRoot->getParent();
-        if (temp->getKey() > iRoot->getKey()) {
-            temp->setLeft(iRoot);
-        } else {
-            temp->setRight(iRoot);
-        }
     }
 }
 
@@ -610,6 +601,7 @@ TreeNode<T> *Tree<T>::Find(int key) {
 
 template<class T>
 TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
+    TreeNode<T> *parentOfNode = node->getParent();
     TreeNode<T> *y = node->getRight();
     TreeNode<T> *t = y->getLeft();
 
@@ -621,6 +613,16 @@ TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
     node->setRight(t);
     if (t) {
         t->setParent(node);
+    }
+    if(parentOfNode){
+        if(parentOfNode->getKey() < node->getKey()){
+            //node is the right child
+            parentOfNode->setRight(y);
+        }
+        else{
+            parentOfNode->setLeft(y);
+        }
+        parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));
     }
 
     // update heights
@@ -634,6 +636,7 @@ TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
 
 template<class T>
 TreeNode<T> *Tree<T>::RightRotate(TreeNode<T> *node) {
+    TreeNode<T> *parentOfNode = node->getParent();
     TreeNode<T> *x = node->getLeft();
     TreeNode<T> *t = x->getRight();
 
@@ -645,6 +648,16 @@ TreeNode<T> *Tree<T>::RightRotate(TreeNode<T> *node) {
     node->setLeft(t);
     if (t) {
         t->setParent(node);
+    }
+    if(parentOfNode){
+        if(parentOfNode->getKey() < node->getKey()){
+            //node is the right child
+            parentOfNode->setRight(x);
+        }
+        else{
+            parentOfNode->setLeft(x);
+        }
+        parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));
     }
 
     // update heights
