@@ -1217,36 +1217,6 @@ void TestGetNextFunc() {
     std::cout << "Tree Get next Test FINISH" << std::endl;
 }
 
-void test1 (Tree<int>* t) {
-
-    t->Insert(100,new int(100));
-    t->Insert(200,new int(100));
-    t->Insert(-100,new int(100));
-    t->Insert(324,new int(100));
-    t->Insert(100,new int(100));
-    t->Insert(64,new int(100));
-    t->Insert(11,new int(100));
-    t->Insert(33,new int(100));
-    t->Insert(4135,new int(100));
-    t->Insert(451,new int(100));
-    t->Insert(77,new int(100));
-    t->Insert(-6,new int(100));
-    t->Insert(2,new int(100));
-    t->Insert(88,new int(100));
-    t->Insert(-34,new int(100));
-    t->Insert(-111,new int(100));
-    t->Insert(234,new int(100));
-    t->Insert(678,new int(100));
-    t->Insert(89,new int(100));
-    t->Insert(-12,new int(100));
-    t->Insert(-21,new int(100));
-    t->Insert(54,new int(100));
-    t->Insert(-988,new int(100));
-    t->Insert(676,new int(100));
-
-
-}
-
 
 
 int main() {
@@ -1282,7 +1252,33 @@ int main() {
 //    TestRandomInput();
 //    TestAddALot();
     Tree<int> *t =new Tree<int>();
-    test1(t);
+    t->Insert(100,new int(100));
+    t->Insert(200,new int(100));
+    t->Insert(-100,new int(100));
+    t->Insert(324,new int(100));
+    int * temp = new int(100);
+    t->Insert(100,temp);
+    delete temp;
+    t->Insert(64,new int(100));
+    t->Insert(11,new int(100));
+    t->Insert(33,new int(100));
+    t->Insert(4135,new int(100));
+    t->Insert(451,new int(100));
+    t->Insert(77,new int(100));
+    t->Insert(-6,new int(100));
+    t->Insert(2,new int(100));
+    t->Insert(88,new int(100));
+    t->Insert(-34,new int(100));
+    t->Insert(-111,new int(100));
+    t->Insert(234,new int(100));
+    t->Insert(678,new int(100));
+    t->Insert(89,new int(100));
+    t->Insert(-12,new int(100));
+    t->Insert(-21,new int(100));
+    t->Insert(54,new int(100));
+    t->Insert(-988,new int(100));
+    t->Insert(676,new int(100));
+    delete t;
     return 0;
 }
 
