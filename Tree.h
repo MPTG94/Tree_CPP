@@ -285,6 +285,7 @@ void TreeNode<T>::printPostOrder(TreeNode<T> *node) {
     std::cout << node->getKey() << ", ";
 }
 
+
 template<class T>
 class Tree {
 private:
@@ -357,7 +358,7 @@ StatusType Tree<T>::Insert(int key, T *value) {
 template<class T>
 void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     bool trueRoot = false;
-    if (iRoot == nullptr) {
+    if (iRoot->getParent() == nullptr) {
         return;
     } else {
         TreeNode<T> *temp = iRoot->getParent();
@@ -428,13 +429,11 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
         iRoot->setRight(RightRotate(iRoot->getRight()));
         iRoot = LeftRotate(iRoot);
     }
-    int balance2 = TreeNode<T>::getBalance(iRoot);
+    int balance2 = TreeNode<T>::getBalance(iRoot->getParent());
     if (balance2 > 2 || balance2 < -2) {
         std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance2 << std::endl;
         if (trueRoot) {
             this->root = iRoot;
-            TreeNode<T> *temp = this->root;
-            temp->setParent(nullptr);
 //        } else {
 //
 //            if (temp->getKey() > iRoot->getKey()) {
@@ -452,7 +451,11 @@ StatusType Tree<T>::Remove(int key) {
         // Tree is empty, setting new node as first node
         return FAILURE;
     } else {
-        RemoveNode(root, key);
+        if (Find(key)) {
+            RemoveNode(root, key);
+        } else {
+            return FAILURE;
+        }
     }
     return SUCCESS;
 }

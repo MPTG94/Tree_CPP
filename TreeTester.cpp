@@ -1243,6 +1243,13 @@ void test1 (Tree<int>* t) {
     t->Insert(54,new int(100));
     t->Insert(-988,new int(100));
     t->Insert(676,new int(100));
+    t->Remove(-100);
+    t->Remove(676);
+    t->Remove(-988);
+    t->Remove(678);
+    t->Remove(89);
+    t->Remove(451);
+
 
 
 }
@@ -1280,8 +1287,8 @@ int main() {
 //    TestTreeDeletionNullptr();
 //    TestTreeDelete2NodesTillEmpty();
 //    TestRandomInput();
-//    TestAddALot();
-    Tree<int> *t =new Tree<int>();
+ //     TestAddALot();
+   Tree<int> *t =new Tree<int>();
     test1(t);
     return 0;
 }
