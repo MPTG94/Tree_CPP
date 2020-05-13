@@ -56,6 +56,8 @@ public:
 
     void setHeight(int height);
 
+    void Rebalance();
+
     static TreeNode<T> *find(TreeNode<T> *node, int gKey);
 
     TreeNode<T> *findMin(TreeNode<T> *node);
@@ -99,6 +101,18 @@ public:
         }
         return leftHeight - rightHeight;
     }
+
+    void UpdateNodeHeight();
+
+    int getNodeBalance();
+
+    TreeNode<T>* LeftRotation();
+
+    TreeNode<T>* RightRotation();
+
+    TreeNode<T>* LeftRightRotation();
+
+    TreeNode<T>* RightLeftRotation();
 };
 
 template<class T>
@@ -291,7 +305,7 @@ class Tree {
 private:
     TreeNode<T> *root;
 
-    void InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins);
+    void InsertNode(TreeNode<T> *node, TreeNode<T> *ins);
 
     void RemoveNode(TreeNode<T> *iRoot, int key);
 
@@ -350,99 +364,285 @@ StatusType Tree<T>::Insert(int key, T *value) {
         // Tree is empty, setting new node as first node
         root = nNode;
     } else {
+        int oldRootKey = root->getKey();
         InsertNode(root, nNode);
+        if (oldRootKey != root->getKey()) {
+            // The root of the tree has changed, setting his parent as null
+            root->setParent(nullptr);
+        }
     }
     return SUCCESS;
 }
 
 template<class T>
-void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
-    bool trueRoot = false;
-    if (iRoot->getParent() == nullptr) {
-        return;
-    } else {
-        TreeNode<T> *temp = iRoot->getParent();
-    }
-    if (!iRoot->getParent()) {
-        trueRoot = true;
-    }
+void TreeNode<T>::Rebalance() {
+    UpdateNodeHeight();
 
-    // Before using insert we already check if the key exists in the tree,
-    // so no need to check this here.
-    if (ins->getKey() < iRoot->getKey()) {
-        if (iRoot->getLeft()) {
-            // iRoot has a left child, continue searching for correct spot to place
-            // new node
-            InsertNode(iRoot->getLeft(), ins);
+    int balance = getNodeBalance();
+
+    if (balance == 2) {
+        // The left side of the tree is heavy
+        // Need to check which specific rotation is needed
+        int leftBalance = left->getNodeBalance();
+        if (leftBalance >= 0) {
+            // Need to perform a left rotation
+            TreeNode<T>* newRoot = this->RightRotation();
+            *this = *newRoot;
         } else {
-            iRoot->setLeft(ins);
-            ins->setParent(iRoot);
+            // Need to perform a left right rotation
+            TreeNode<T>* newRoot = this->LeftRightRotation();
+            *this = *newRoot;
         }
-
-    } else {
-        if (iRoot->getRight()) {
-            // iRoot has a right child, continue searching for correct spot to place
-            // new now
-            InsertNode(iRoot->getRight(), ins);
+    } else if (balance == -2) {
+        // The right side of the tree is heavy
+        int rightBalance = right->getNodeBalance();
+        if (rightBalance > 0) {
+            // Need to perform a right left rotation
+            TreeNode<T>* newRoot = this->RightLeftRotation();
+            *this = *newRoot;
         } else {
-            iRoot->setRight(ins);
-            ins->setParent(iRoot);
+            // Need to perform a right rotation
+            TreeNode<T>* newRoot = this->LeftRotation();
+
+            *this = *newRoot;
         }
     }
 
-    // update heights
-    TreeNode<T> *subRightTree = iRoot->getRight();
-    TreeNode<T> *subLeftTree = iRoot->getLeft();
-    int subLeftHeight = 0;
-    int subRightHeight = 0;
-    if (subLeftTree) {
-        subLeftHeight = subLeftTree->getHeight();
-    }
-    if (subRightTree) {
-        subRightHeight = subRightTree->getHeight();
-    }
-    iRoot->setHeight(1 + max(subLeftHeight, subRightHeight));
+    // The balance is either -1,0 or 1, so there is no need to fix
+}
 
-    int balance = TreeNode<T>::getBalance(iRoot);
-    if (balance > 2 || balance < -2) {
-        std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance << std::endl;
+template<class T>
+TreeNode<T> *TreeNode<T>::LeftRotation() {
+    // The parent of the subtree we're rotating
+    TreeNode<T> *parent = getParent();
+    // The new root at the end of the rotation (will be the child of parent)
+    TreeNode<T> *newRoot = getRight();
+    TreeNode<T> *leftOfNewRoot = newRoot->left;
+    // Setting old root as left child
+    newRoot->left = this;
+    this->parent = newRoot;
+    // Right child of new root is already valid
+    if (parent) {
+        if (parent->key > newRoot->key) {
+            // newRoot is a left child of parent
+            parent->left = newRoot;
+            newRoot->parent = parent;
+        } else {
+            // newRoot is a right child of parent
+            parent->right = newRoot;
+            newRoot->parent = parent;
+        }
     }
-    // balancing the tree if necessary
-    // LL case
-    if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
-        iRoot = RightRotate(iRoot);
-    }
-
-    // RR case
-    if (balance < -1 && ins->getKey() > subRightTree->getKey()) {
-        iRoot = LeftRotate(iRoot);
-    }
-
-    // LR case
-    if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
-        iRoot->setLeft(LeftRotate(iRoot->getLeft()));
-        iRoot = RightRotate(iRoot);
+    this->right = leftOfNewRoot;
+    if (leftOfNewRoot) {
+        // If left is really not null, set this as his parent
+        leftOfNewRoot->parent = this;
+        leftOfNewRoot->UpdateNodeHeight();
     }
 
-    // RL case
-    if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
-        iRoot->setRight(RightRotate(iRoot->getRight()));
-        iRoot = LeftRotate(iRoot);
+    // Update heights
+    TreeNode<T> *newRightOfNewRoot = newRoot->right;
+    newRightOfNewRoot->UpdateNodeHeight();
+    this->UpdateNodeHeight();
+    newRoot->UpdateNodeHeight();
+    if (parent) {
+        parent->UpdateNodeHeight();
     }
-    int balance2 = TreeNode<T>::getBalance(iRoot->getParent());
-    if (balance2 > 2 || balance2 < -2) {
-        std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance2 << std::endl;
-        if (trueRoot) {
-            this->root = iRoot;
-//        } else {
+    return newRoot;
+}
+
+template<class T>
+TreeNode<T> *TreeNode<T>::RightRotation() {
+    // The parent of the subtree we're rotating
+    TreeNode<T> *parent = getParent();
+    // The new root at the end of the rotation (will be the child of parent)
+    TreeNode<T> *newRoot = getLeft();
+    TreeNode<T> *rightOfNewRoot = newRoot->right;
+    // Setting old root as left child
+    newRoot->right = this;
+    this->parent = newRoot;
+    // Left child of new root is already valid
+    if (parent) {
+        if (parent->key > newRoot->key) {
+            // newRoot is a left child of parent
+            parent->left = newRoot;
+            newRoot->parent = parent;
+        } else {
+            // newRoot is a right child of parent
+            parent->right = newRoot;
+            newRoot->parent = parent;
+        }
+    }
+    this->left = rightOfNewRoot;
+    if (rightOfNewRoot) {
+        // If right is really not null, set this as his parent
+        rightOfNewRoot->parent = this;
+        rightOfNewRoot->UpdateNodeHeight();
+    }
+
+    // Update heights
+    TreeNode<T> *newLeftOfNewRoot = newRoot->right;
+    newLeftOfNewRoot->UpdateNodeHeight();
+    this->UpdateNodeHeight();
+    newRoot->UpdateNodeHeight();
+    if (parent) {
+        parent->UpdateNodeHeight();
+    }
+    return newRoot;
+}
+
+template<class T>
+TreeNode<T> *TreeNode<T>::LeftRightRotation() {
+    TreeNode<T> *leftOfRoot = left;
+    leftOfRoot = leftOfRoot->LeftRotation();
+    this->RightRotation();
+    return this;
+}
+
+template<class T>
+TreeNode<T> *TreeNode<T>::RightLeftRotation() {
+    TreeNode<T> *rightOfRoot = right;
+    rightOfRoot = rightOfRoot->RightRotation();
+    this->LeftRotation();
+    return this;
+}
+
+template<class T>
+void TreeNode<T>::UpdateNodeHeight() {
+    int leftHeight = (left) ? left->nodeHeight : 0;
+    int rightHeight = (right) ? right->nodeHeight : 0;
+
+    nodeHeight = 1 + max(leftHeight, rightHeight);
+}
+
+template<class T>
+int TreeNode<T>::getNodeBalance() {
+    int leftHeight = (left) ? left->nodeHeight : 0;
+    int rightHeight = (right) ? right->nodeHeight : 0;
+
+    return leftHeight - rightHeight;
+}
+
+template<class T>
+void Tree<T>::InsertNode(TreeNode<T> *node, TreeNode<T> *ins) {
+    // IMPORTANT: before entering InsertNode, the Inser function calls Find,
+    // to try and see if the key exists, so a case where we arrive at InsertNode
+    // with an existing key shouldn't be possible
+    if (node->getKey() > ins->getKey()) {
+        // We are inserting a node with a smaller key,
+        // so it will be entered on the left side
+        if (node->getLeft()) {
+            // The current node has a left side, so we can go further down
+            InsertNode(node->getLeft(), ins);
+        } else {
+            // the node doesn't have a left side, so we can place the new node as
+            // it's new left leaf
+            node->setLeft(ins);
+            ins->setParent(node);
+        }
+    } else {
+        // We are inserting a node with a larger key,
+        // so it will be entered on the right side
+        if (node->getRight()) {
+            // The current node has a right side, so we can go further down
+            InsertNode(node->getRight(), ins);
+        } else {
+            // The node doesn't have a right side, so we can place the new noe as
+            // it's new right leaf
+            node->setRight(ins);
+            ins->setParent(node);
+        }
+    }
+
+    // We are done inserting the new node, now we need to rebalance the tree
+    node->Rebalance();
+
+//    bool trueRoot = false;
+//    if (node->getParent() == nullptr) {
+//        return;
+//    } else {
+//        TreeNode<T> *temp = node->getParent();
+//    }
+//    if (!node->getParent()) {
+//        trueRoot = true;
+//    }
 //
-//            if (temp->getKey() > iRoot->getKey()) {
-//                temp->setLeft(iRoot);
-//            } else {
-//                temp->setRight(iRoot);
-//            }
-        }
-    }
+//    // Before using insert we already check if the key exists in the tree,
+//    // so no need to check this here.
+//    if (ins->getKey() < node->getKey()) {
+//        if (node->getLeft()) {
+//            // node has a left child, continue searching for correct spot to place
+//            // new node
+//            InsertNode(node->getLeft(), ins);
+//        } else {
+//            node->setLeft(ins);
+//            ins->setParent(node);
+//        }
+//
+//    } else {
+//        if (node->getRight()) {
+//            // node has a right child, continue searching for correct spot to place
+//            // new now
+//            InsertNode(node->getRight(), ins);
+//        } else {
+//            node->setRight(ins);
+//            ins->setParent(node);
+//        }
+//    }
+//
+//    // update heights
+//    TreeNode<T> *subRightTree = node->getRight();
+//    TreeNode<T> *subLeftTree = node->getLeft();
+//    int subLeftHeight = 0;
+//    int subRightHeight = 0;
+//    if (subLeftTree) {
+//        subLeftHeight = subLeftTree->getHeight();
+//    }
+//    if (subRightTree) {
+//        subRightHeight = subRightTree->getHeight();
+//    }
+//    node->setHeight(1 + max(subLeftHeight, subRightHeight));
+//
+//    int balance = TreeNode<T>::getBalance(node);
+//    if (balance > 2 || balance < -2) {
+//        std::cout << "BF problem in adding with key " << node->getKey() << " BF is " << balance << std::endl;
+//    }
+//    // balancing the tree if necessary
+//    // LL case
+//    if (balance > 1 && ins->getKey() < subLeftTree->getKey()) {
+//        node = RightRotate(node);
+//    }
+//
+//    // RR case
+//    if (balance < -1 && ins->getKey() > subRightTree->getKey()) {
+//        node = LeftRotate(node);
+//    }
+//
+//    // LR case
+//    if (balance > 1 && ins->getKey() > subLeftTree->getKey()) {
+//        node->setLeft(LeftRotate(node->getLeft()));
+//        node = RightRotate(node);
+//    }
+//
+//    // RL case
+//    if (balance < -1 && ins->getKey() < subRightTree->getKey()) {
+//        node->setRight(RightRotate(node->getRight()));
+//        node = LeftRotate(node);
+//    }
+//    int balance2 = TreeNode<T>::getBalance(node->getParent());
+//    if (balance2 > 2 || balance2 < -2) {
+//        std::cout << "BF problem in adding with key " << node->getKey() << " BF is " << balance2 << std::endl;
+//        if (trueRoot) {
+//            this->root = node;
+////        } else {
+////
+////            if (temp->getKey() > node->getKey()) {
+////                temp->setLeft(node);
+////            } else {
+////                temp->setRight(node);
+////            }
+//        }
+//    }
 }
 
 template<class T>
@@ -617,12 +817,11 @@ TreeNode<T> *Tree<T>::LeftRotate(TreeNode<T> *node) {
     if (t) {
         t->setParent(node);
     }
-    if(parentOfNode){
-        if(parentOfNode->getKey() < node->getKey()){
+    if (parentOfNode) {
+        if (parentOfNode->getKey() < node->getKey()) {
             //node is the right child
             parentOfNode->setRight(y);
-        }
-        else{
+        } else {
             parentOfNode->setLeft(y);
         }
         parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));
@@ -652,12 +851,11 @@ TreeNode<T> *Tree<T>::RightRotate(TreeNode<T> *node) {
     if (t) {
         t->setParent(node);
     }
-    if(parentOfNode){
-        if(parentOfNode->getKey() < node->getKey()){
+    if (parentOfNode) {
+        if (parentOfNode->getKey() < node->getKey()) {
             //node is the right child
             parentOfNode->setRight(x);
-        }
-        else{
+        } else {
             parentOfNode->setLeft(x);
         }
         parentOfNode->setHeight(TreeNode<T>::calculateHeight(parentOfNode));

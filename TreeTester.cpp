@@ -1289,7 +1289,11 @@ int main() {
 //    TestRandomInput();
  //     TestAddALot();
    Tree<int> *t =new Tree<int>();
-    test1(t);
+//    test1(t);
+    for (int i = 0; i < 5000; ++i) {
+        t->Insert(i,new int(i));
+    }
+    t->PrintInOrder();
     return 0;
 }
 
