@@ -399,7 +399,7 @@ int TreeNode<T>::getRightChildHeight() {
 template<class T>
 TreeNode<T> *TreeNode<T>::Insert(int nodeKey, T *nodeData, TreeNode<T> *result) {
     // Search for the right place to insert the node
-    if (nodeKey > key) {
+    if (nodeKey > getKey()) {
         // The node will be a right child of this node
         if (!right) {
             // Found the correct spot to insert the node
@@ -410,7 +410,7 @@ TreeNode<T> *TreeNode<T>::Insert(int nodeKey, T *nodeData, TreeNode<T> *result) 
             // Need to continue searching for the right spot of the new node
             right->Insert(nodeKey, nodeData, result);
         }
-    } else if (nodeKey < key) {
+    } else if (nodeKey < getKey()) {
         // The node will be a left child of this node
         if (!left) {
             // Found the correct spot to insert the node
@@ -439,14 +439,14 @@ TreeNode<T> *TreeNode<T>::Insert(int nodeKey, T *nodeData, TreeNode<T> *result) 
 template<class T>
 TreeNode<T> *TreeNode<T>::Remove(int nodeKey) {
     // Searching for the node to remove
-    if (nodeKey < key) {
+    if (nodeKey < getKey()) {
         // The delete target is a left child of the current node
         if (left) {
             left->Remove(nodeKey);
         } else {
             return this;
         }
-    } else if (nodeKey > key) {
+    } else if (nodeKey > getKey()) {
         // The delete target is a right child of the current node
         if (right) {
             right->Remove(nodeKey);
