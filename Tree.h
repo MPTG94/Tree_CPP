@@ -341,7 +341,7 @@ StatusType Tree<T>::Insert(int key, T *value) {
         return ALLOCATION_ERROR;
     }
 
-    if(Find(key)){
+    if (Find(key)) {
         return FAILURE;
     }
 
@@ -359,6 +359,8 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     bool trueRoot = false;
     if (iRoot == nullptr) {
         return;
+    } else {
+        TreeNode<T> *temp = iRoot->getParent();
     }
     if (!iRoot->getParent()) {
         trueRoot = true;
@@ -401,8 +403,8 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
     iRoot->setHeight(1 + max(subLeftHeight, subRightHeight));
 
     int balance = TreeNode<T>::getBalance(iRoot);
-    if(balance>2 || balance<-2){
-        std::cout <<"BF problem in adding with key " << iRoot->getKey() << " BF is " << balance << std::endl;
+    if (balance > 2 || balance < -2) {
+        std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance << std::endl;
     }
     // balancing the tree if necessary
     // LL case
@@ -426,16 +428,20 @@ void Tree<T>::InsertNode(TreeNode<T> *iRoot, TreeNode<T> *ins) {
         iRoot->setRight(RightRotate(iRoot->getRight()));
         iRoot = LeftRotate(iRoot);
     }
-    if (trueRoot) {
-        this->root = iRoot;
-        TreeNode<T> *temp = this->root;
-        temp->setParent(nullptr);
-    } else {
-        TreeNode<T> *temp = iRoot->getParent();
-        if (temp->getKey() > iRoot->getKey()) {
-            temp->setLeft(iRoot);
-        } else {
-            temp->setRight(iRoot);
+    int balance2 = TreeNode<T>::getBalance(iRoot);
+    if (balance2 > 2 || balance2 < -2) {
+        std::cout << "BF problem in adding with key " << iRoot->getKey() << " BF is " << balance2 << std::endl;
+        if (trueRoot) {
+            this->root = iRoot;
+            TreeNode<T> *temp = this->root;
+            temp->setParent(nullptr);
+//        } else {
+//
+//            if (temp->getKey() > iRoot->getKey()) {
+//                temp->setLeft(iRoot);
+//            } else {
+//                temp->setRight(iRoot);
+//            }
         }
     }
 }
@@ -545,8 +551,8 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
 
     // Calculating the new balance factor
     int balance = TreeNode<T>::getBalance(iRoot);
-    if(balance>2 || balance<-2){
-        std::cout <<"BF problem in removing with key " << iRoot->getKey() << "BF is " << balance << std::endl;
+    if (balance > 2 || balance < -2) {
+        std::cout << "BF problem in removing with key " << iRoot->getKey() << "BF is " << balance << std::endl;
     }
     // LL case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
