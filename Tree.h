@@ -460,10 +460,7 @@ StatusType Tree<T>::Remove(int key) {
 
 template<class T>
 void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
-    bool trueRoot = false;
-    if (!iRoot->getParent()) {
-        trueRoot = true;
-    }
+
     // called find before, know that a matching key exist
     if (iRoot->getKey() > key) {
         // should search at the left side
@@ -491,9 +488,7 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
                 }
                 // We removed a node with no children, we removed his pointer
                 // from his parent node, now we can safely delete him.
-                if (trueRoot) {
-                    this->root = nullptr;
-                }
+
                 iRoot->setLeft(nullptr);
                 iRoot->setRight(nullptr);
                 delete iRoot;
@@ -558,26 +553,35 @@ void Tree<T>::RemoveNode(TreeNode<T> *iRoot, int key) {
     // LL case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) >= 0) {
         iRoot = RightRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // LR case
     if (balance > 1 && TreeNode<T>::getBalance(iRoot->getLeft()) < 0) {
         iRoot->setLeft(LeftRotate(iRoot->getLeft()));
         iRoot = RightRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // RR case
     if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) <= 0) {
         iRoot = LeftRotate(iRoot);
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 
     // RL case
     if (balance < -1 && TreeNode<T>::getBalance(iRoot->getRight()) > 0) {
         iRoot->setRight(RightRotate(iRoot->getRight()));
         iRoot = LeftRotate(iRoot);
-    }
-    if (trueRoot) {
-        this->root = iRoot;
+        if (iRoot->getParent() == nullptr) {
+            this->root = iRoot;
+        }
     }
 }
 

@@ -1296,9 +1296,9 @@ int main() {
    for(int i = 2 ; i<1000 ; i+=2){
        t->Remove(i);
    }
-   for(int i = 1 ; i<1000 ; i+=2){
-       t->Remove(i);
-   }
+//   for(int i = 1 ; i<1000 ; i+=2){
+//       t->Remove(i);
+//   }
    t->PrintInOrder();
     return 0;
 }
