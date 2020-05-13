@@ -73,10 +73,6 @@ public:
 
     void setParent(TreeNode<T> *ptr);
 
-    int SaveNodesInOrder(int *keys, int size);
-
-    int CountSuccessorNodes(int *keys, int size);
-
     void DeleteTreeData();
 
     ~TreeNode();
@@ -101,7 +97,7 @@ TreeNode<T> *TreeNode<T>::Rebalance() {
 
     if (balance > 1) {
         // The tree is left heavy
-        int leftSubtreeBalance = left->getBalanceFactor();
+        int leftSubtreeBalance = getLeft()->getBalanceFactor();
         if (leftSubtreeBalance >= 0) {
             return LeftRotate();
         } else {
@@ -109,7 +105,7 @@ TreeNode<T> *TreeNode<T>::Rebalance() {
         }
     } else if (balance < -1) {
         // The tree is right heavy
-        int rightSubtreeBalance = right->getBalanceFactor();
+        int rightSubtreeBalance = getRight()->getBalanceFactor();
         if (rightSubtreeBalance > 0) {
             return RightLeftRotatet();
         } else {
@@ -129,11 +125,11 @@ int TreeNode<T>::getBalanceFactor() {
     updateNodeHeight();
     int leftHeight = 0;
     int rightHeight = 0;
-    if (right != nullptr) {
-        rightHeight = right->height;
+    if (getRight() != nullptr) {
+        rightHeight = getRight()->height;
     }
-    if (left != nullptr) {
-        leftHeight = left->height;
+    if (getLeft() != nullptr) {
+        leftHeight = getLeft()->height;
     }
     return leftHeight - rightHeight;
 }
@@ -147,10 +143,10 @@ int TreeNode<T>::getBalanceFactor() {
 template<class T>
 void TreeNode<T>::SwapNodesParent(TreeNode<T> *replacement) {
     if (replacement != nullptr) {
-        replacement->parent = this->parent;
+        replacement->parent = this->getParent();
     }
-    if (this->parent != nullptr) {
-        if (this->parent->left != nullptr && this->parent->left->key == this->key) {
+    if (this->getParent() != nullptr) {
+        if (this->getParent()->getLeft() != nullptr && this->getParent()->getLeft()->getKey() == this->getKey()) {
             this->parent->left = replacement;
         } else {
             this->parent->right = replacement;
@@ -560,62 +556,6 @@ void TreeNode<T>::setParent(TreeNode<T> *ptr) {
 }
 
 /**
- * Traverses the tree in order from the current node downward
- * Saves encountered keys to an input array as the input amount specifies
- * returns the amount of keys traveresed and saved
- * @tparam T Pointer to dynamically allocated object of type T
- * @param keys an array to save the keys to
- * @param size the number of keys to traverse and save
- * @return the number of keys found
- */
-template<class T>
-int TreeNode<T>::SaveNodesInOrder(int *keys, int size) {
-    if (size <= 0 || keys == nullptr) {
-        return 0;
-    }
-
-    int index = 0;
-    if (left != nullptr) {
-        index += left->SaveNodesInOrder(keys, size);
-        if (index >= size) {
-            return index;
-        }
-    }
-
-    keys[index++] = key;
-
-    if (index < size && right != nullptr) {
-        index += right->SaveNodesInOrder(keys + index, size - index);
-    }
-    return index;
-}
-
-/**
- * Traverses the tree from the minimal node upward and saves the keys encountered
- * up to the amount of keys specified in size
- * @tparam T Pointer to dynamically allocated object of type T
- * @param keys an array to save the keys to
- * @param size the number of keys to traverse and save
- * @return the number of keys found
- */
-template<class T>
-int TreeNode<T>::CountSuccessorNodes(int *keys, int size) {
-    if (size <= 0 || keys == nullptr) {
-        return 0;
-    }
-    int index = 0;
-    TreeNode<T> *current = this;
-    while (current && index < size) {
-        keys[index++] = current->key;
-        if (current->right) {
-            index += current->right->SaveNodesInOrder(keys + index, size - index);
-        }
-        current = current->parent;
-    }
-    return index;
-}
-
-/**
  * Completely deletes the tree from the given node downward, including all dynamically
  * allocated data in each node
  * also marks every deleted node as nullptr
@@ -674,8 +614,6 @@ public:
 
 
     TreeNode<T> *getMinNode();
-
-    int CountSuccessorNodes(int *keys, int size);
 
     bool IsRootNull();
 
@@ -802,23 +740,6 @@ void Tree<T>::Remove(int key) {
 template<class T>
 TreeNode<T> *Tree<T>::getMinNode() {
     return minimalKeyNode;
-}
-
-/**
- * Traverses the tree from the minimal node upward and saves the keys encountered
- * up to the amount of keys specified in size
- * @tparam T Pointer to dynamically allocated object of type T
- * @param keys an array to save the keys to
- * @param size the number of keys to traverse and save
- * @return the number of keys found
- */
-template<class T>
-int Tree<T>::CountSuccessorNodes(int *keys, int size) {
-    if (size <= 0 || keys == nullptr || minimalKeyNode == nullptr) {
-        return 0;
-    }
-
-    return minimalKeyNode->CountSuccessorNodes(keys, size);
 }
 
 /**
