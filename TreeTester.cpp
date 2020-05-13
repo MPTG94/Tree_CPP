@@ -17,7 +17,7 @@ void TestLL() {
     treeLL->Insert(3, new int(3));
     treeLL->Insert(2, new int(2));
     treeLL->Insert(1, new int(1));
-    treeLL->PrintInOrder();
+    //treeLL
     delete treeLL;
     treeLL = nullptr;
     std::cout << std::endl;
@@ -31,7 +31,7 @@ void TestLR() {
     treeLR->Insert(3, new int(3));
     treeLR->Insert(1, new int(1));
     treeLR->Insert(2, new int(2));
-    treeLR->PrintInOrder();
+//    treeLR->getMinNode();
     delete treeLR;
     treeLR = nullptr;
     std::cout << std::endl;
@@ -45,7 +45,7 @@ void TestRR() {
     treeRR->Insert(1, new int(1));
     treeRR->Insert(2, new int(2));
     treeRR->Insert(3, new int(3));
-    treeRR->PrintInOrder();
+//    treeRR->getMinNode();
     delete treeRR;
     treeRR = nullptr;
     std::cout << std::endl;
@@ -59,7 +59,7 @@ void TestRL() {
     treeRL->Insert(1, new int(1));
     treeRL->Insert(3, new int(3));
     treeRL->Insert(2, new int(2));
-    treeRL->PrintInOrder();
+//    treeRL->getMinNode();
     delete treeRL;
     treeRL = nullptr;
     std::cout << std::endl;
@@ -67,7 +67,7 @@ void TestRL() {
 }
 
 void TestAddALot(){
-    std::cout <<"start to add and remove many nodes" << std::endl;
+    std::cout <<"start to add and Remove many nodes" << std::endl;
     std::cout <<" let's hope the BF won't be more than 1 or less than -1" << std::endl;
     Tree<int> *treeBF = new Tree<int>();
     std::cout <<"start to add many nodes - first time" << std::endl;
@@ -119,7 +119,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -190,7 +190,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -261,7 +261,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -332,7 +332,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -403,7 +403,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -474,7 +474,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -545,7 +545,7 @@ void TestAddALot(){
     treeBF->Insert(66, new int(100));
     treeBF->Insert(67, new int(100));
     treeBF->Insert(68, new int(100));
-    std::cout <<"start to remove many nodes" << std::endl;
+    std::cout <<"start to Remove many nodes" << std::endl;
     treeBF->Remove(34);
     treeBF->Remove(35);
     treeBF->Remove(36);
@@ -595,7 +595,7 @@ void TestLRDontChangeRoot() {
     treeLRnRootC->Insert(7, new int(7));
     treeLRnRootC->Insert(1, new int(1));
     treeLRnRootC->Insert(2, new int(2));
-    treeLRnRootC->PrintInOrder();
+//    treeLRnRootC->getMinNode();
     delete treeLRnRootC;
     treeLRnRootC = nullptr;
     std::cout << std::endl;
@@ -623,7 +623,7 @@ void TestLLDontChangeRoot() {
     treeLLnRootC->Insert(7, new int(7));
     treeLLnRootC->Insert(2, new int(2));
     treeLLnRootC->Insert(1, new int(1));
-    treeLLnRootC->PrintInOrder();
+//    treeLLnRootC->getMinNode();
     delete treeLLnRootC;
     treeLLnRootC = nullptr;
     std::cout << std::endl;
@@ -645,7 +645,7 @@ void TestRRDontChangeRoot() {
     treeRRnRootC->Insert(1, new int(1));
     treeRRnRootC->Insert(2, new int(2));
     treeRRnRootC->Insert(3, new int(3));
-    treeRRnRootC->PrintInOrder();
+//    treeRRnRootC->getMinNode();
     delete treeRRnRootC;
     treeRRnRootC = nullptr;
     std::cout << std::endl;
@@ -667,7 +667,7 @@ void TestRLDontChangeRoot() {
     treeRLnRootC->Insert(1, new int(1));
     treeRLnRootC->Insert(3, new int(3));
     treeRLnRootC->Insert(2, new int(2));
-    treeRLnRootC->PrintInOrder();
+//    treeRLnRootC->getMinNode();
     delete treeRLnRootC;
     treeRLnRootC = nullptr;
     std::cout << std::endl;
@@ -689,7 +689,7 @@ void TestReplaceRootWithSuccessor() {
     treeDeleteRootGetSuccessor->Insert(2, new int(2));
     treeDeleteRootGetSuccessor->Insert(6, new int(6));
     treeDeleteRootGetSuccessor->Remove(4);
-    treeDeleteRootGetSuccessor->PrintInOrder();
+//    treeDeleteRootGetSuccessor->getMinNode();
     delete treeDeleteRootGetSuccessor;
     treeDeleteRootGetSuccessor = nullptr;
     std::cout << std::endl;
@@ -715,14 +715,14 @@ void TestReplaceRootWithNonSuccessor() {
     treeDeleteRootNotSuccessor->Insert(8, new int(8));
     treeDeleteRootNotSuccessor->Insert(6, new int(6));
     treeDeleteRootNotSuccessor->Remove(4);
-    treeDeleteRootNotSuccessor->PrintInOrder();
+//    treeDeleteRootNotSuccessor->getMinNode();
     delete treeDeleteRootNotSuccessor;
     treeDeleteRootNotSuccessor = nullptr;
     std::cout << std::endl;
     std::cout << "replace root with non successor Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeWithSuccessorNeighbour() {
+void TestremoveNodeWithSuccessorNeighbour() {
     //node deletion no roll successor is a neighbour case7
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -743,13 +743,13 @@ void TestRemoveNodeWithSuccessorNeighbour() {
     treeDeleteNodeSuccessor->Insert(5, new int(5));
     treeDeleteNodeSuccessor->Insert(1, new int(1));
     treeDeleteNodeSuccessor->Remove(3);
-    treeDeleteNodeSuccessor->PrintInOrder();
+//    treeDeleteNodeSuccessor->getMinNode();
     delete treeDeleteNodeSuccessor;
     std::cout << std::endl;
     std::cout << "replace node with successor neighbour Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeWithSuccessorNonNeighbour() {
+void TestremoveNodeWithSuccessorNonNeighbour() {
     //node deletion no roll successor is not a neighbour case8
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -778,13 +778,13 @@ void TestRemoveNodeWithSuccessorNonNeighbour() {
     treeDeleteNodeSuccessor->Insert(14, new int(14));
     treeDeleteNodeSuccessor->Insert(6, new int(6));
     treeDeleteNodeSuccessor->Remove(3);
-    treeDeleteNodeSuccessor->PrintInOrder();
+//    treeDeleteNodeSuccessor->getMinNode();
     delete treeDeleteNodeSuccessor;
     std::cout << std::endl;
     std::cout << "replace node with successor non neighbour Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseLR() {
+void TestremoveNodeCauseLR() {
     //node deletion causing LR case9
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -793,7 +793,7 @@ void TestRemoveNodeCauseLR() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause LR Test START" << std::endl;
+    std::cout << "Remove node and cause LR Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(7, new int(7));
     tree->Insert(2, new int(2));
@@ -803,13 +803,13 @@ void TestRemoveNodeCauseLR() {
     tree->Insert(9, new int(9));
     tree->Insert(3, new int(3));
     tree->Remove(9);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause LR Test FINISH" << std::endl;
+    std::cout << "Remove node and cause LR Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseLL() {
+void TestremoveNodeCauseLL() {
     //node deletion causing LL case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -818,7 +818,7 @@ void TestRemoveNodeCauseLL() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause LL Test START" << std::endl;
+    std::cout << "Remove node and cause LL Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(7, new int(7));
     tree->Insert(3, new int(3));
@@ -828,13 +828,13 @@ void TestRemoveNodeCauseLL() {
     tree->Insert(9, new int(9));
     tree->Insert(1, new int(1));
     tree->Remove(9);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause LL Test FINISH" << std::endl;
+    std::cout << "Remove node and cause LL Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseRR() {
+void TestremoveNodeCauseRR() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -843,7 +843,7 @@ void TestRemoveNodeCauseRR() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause RR Test START" << std::endl;
+    std::cout << "Remove node and cause RR Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(3, new int(3));
     tree->Insert(2, new int(2));
@@ -853,13 +853,13 @@ void TestRemoveNodeCauseRR() {
     tree->Insert(9, new int(9));
     tree->Insert(10, new int(10));
     tree->Remove(1);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause RR Test FINISH" << std::endl;
+    std::cout << "Remove node and cause RR Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseRL() {
+void TestremoveNodeCauseRL() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -868,7 +868,7 @@ void TestRemoveNodeCauseRL() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause RL Test START" << std::endl;
+    std::cout << "Remove node and cause RL Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(3, new int(3));
     tree->Insert(2, new int(2));
@@ -878,13 +878,13 @@ void TestRemoveNodeCauseRL() {
     tree->Insert(14, new int(14));
     tree->Insert(10, new int(10));
     tree->Remove(1);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause RL Test FINISH" << std::endl;
+    std::cout << "Remove node and cause RL Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseRLRR() {
+void TestremoveNodeCauseRLRR() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -893,7 +893,7 @@ void TestRemoveNodeCauseRLRR() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause RL RR Test START" << std::endl;
+    std::cout << "Remove node and cause RL RR Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(9, new int(9));
     tree->Insert(3, new int(3));
@@ -908,13 +908,13 @@ void TestRemoveNodeCauseRLRR() {
     tree->Insert(21, new int(21));
     tree->Insert(23, new int(23));
     tree->Remove(1);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause RL RR Test FINISH" << std::endl;
+    std::cout << "Remove node and cause RL RR Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseRRRR() {
+void TestremoveNodeCauseRRRR() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -923,7 +923,7 @@ void TestRemoveNodeCauseRRRR() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause RR RR Test START" << std::endl;
+    std::cout << "Remove node and cause RR RR Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(9, new int(9));
     tree->Insert(3, new int(3));
@@ -938,13 +938,13 @@ void TestRemoveNodeCauseRRRR() {
     tree->Insert(21, new int(21));
     tree->Insert(23, new int(23));
     tree->Remove(1);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause RR RR Test FINISH" << std::endl;
+    std::cout << "Remove node and cause RR RR Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseRLLL() {
+void TestremoveNodeCauseRLLL() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -953,7 +953,7 @@ void TestRemoveNodeCauseRLLL() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause RL LL Test START" << std::endl;
+    std::cout << "Remove node and cause RL LL Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(15, new int(15));
     tree->Insert(10, new int(10));
@@ -968,13 +968,13 @@ void TestRemoveNodeCauseRLLL() {
     tree->Insert(18, new int(18));
     tree->Insert(6, new int(6));
     tree->Remove(21);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause RL LL Test FINISH" << std::endl;
+    std::cout << "Remove node and cause RL LL Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseLRLL() {
+void TestremoveNodeCauseLRLL() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -983,7 +983,7 @@ void TestRemoveNodeCauseLRLL() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause LR LL Test START" << std::endl;
+    std::cout << "Remove node and cause LR LL Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(15, new int(15));
     tree->Insert(10, new int(10));
@@ -998,13 +998,13 @@ void TestRemoveNodeCauseLRLL() {
     tree->Insert(21, new int(21));
     tree->Insert(6, new int(6));
     tree->Remove(17);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause LR LL Test FINISH" << std::endl;
+    std::cout << "Remove node and cause LR LL Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseLR2() {
+void TestremoveNodeCauseLR2() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -1013,7 +1013,7 @@ void TestRemoveNodeCauseLR2() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause LR 2 Test START" << std::endl;
+    std::cout << "Remove node and cause LR 2 Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(5, new int(5));
     tree->Insert(3, new int(3));
@@ -1021,13 +1021,13 @@ void TestRemoveNodeCauseLR2() {
     tree->Insert(2, new int(2));
     tree->Insert(4, new int(4));
     tree->Remove(5);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause LR 2 Test FINISH" << std::endl;
+    std::cout << "Remove node and cause LR 2 Test FINISH" << std::endl;
 }
 
-void TestRemoveNodeCauseLR3() {
+void TestremoveNodeCauseLR3() {
     //node deletion causing RR case10
 //	/*correct output
 //	1 BF: 0 Height: 0
@@ -1036,17 +1036,17 @@ void TestRemoveNodeCauseLR3() {
 //	4 BF: 0 Height: 2
 //	7 BF: -1 Height: 1
 //	8 BF: 0 Height: 0*/
-    std::cout << "remove node and cause LR 3 Test START" << std::endl;
+    std::cout << "Remove node and cause LR 3 Test START" << std::endl;
     Tree<int> *tree = new Tree<int>();
     tree->Insert(5, new int(5));
     tree->Insert(3, new int(3));
     tree->Insert(6, new int(6));
     tree->Insert(2, new int(2));
     tree->Remove(5);
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
-    std::cout << "remove node and cause LR 3 Test FINISH" << std::endl;
+    std::cout << "Remove node and cause LR 3 Test FINISH" << std::endl;
 }
 
 void TestRandomInput() {
@@ -1055,7 +1055,7 @@ void TestRandomInput() {
     std::vector<int> vector;
     for (int i = 1; i <= 100; i++) vector.push_back(i);
 
-    //Randomly insert and removes nodes
+    //Randomly Insert and removes nodes
     for (int k = 0; k < 20; ++k) {
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
@@ -1063,12 +1063,12 @@ void TestRandomInput() {
             tree->Insert(*it, new int(*it));
 
         }
-        tree->PrintInOrder();
+        tree->getMinNode();
         std::cout << std::endl;
         shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
         for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
             tree->Remove(*it);
-            tree->PrintInOrder();
+            tree->getMinNode();
 
         }
         delete tree;
@@ -1087,13 +1087,13 @@ void TestFind() {
     if (test) {
         std::cout << "found node with key: " << test->getKey() << std::endl;
     } else {
-        std::cout << "can't find node with key: " << test->getKey() << std::endl;
+        std::cout << "can't Find node with key: " << test->getKey() << std::endl;
     }
     test = tree->Find(3);
     if (test) {
         std::cout << "found node with key: " << test->getKey() << std::endl;
     } else {
-        std::cout << "can't find node with given key" << std::endl;
+        std::cout << "can't Find node with given key" << std::endl;
     }
     tree->Insert(3, new int(3));
     tree->Insert(6, new int(6));
@@ -1104,26 +1104,26 @@ void TestFind() {
     if (test) {
         std::cout << "found node with key: " << test->getKey() << std::endl;
     } else {
-        std::cout << "can't find node with given key" << std::endl;
+        std::cout << "can't Find node with given key" << std::endl;
     }
-    tree->PrintInOrder();
+    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Find Test FINISH" << std::endl;
 }
 
-void TestCreateAndRemoveSoloRoot() {
+void TestCreateAndremoveSoloRoot() {
     std::cout << "Create and Remove only root Test START" << std::endl;
     Tree<int> tree = Tree<int>();
     tree.Insert(1, new int(5));
     tree.Remove(1);
-    if (tree.IsEmpty()) {
-        std::cout << "The tree is now empty" << std::endl;
-    }
+//    if (tree.IsEmpty()) {
+//        std::cout << "The tree is now empty" << std::endl;
+//    }
     std::cout << "Create and Remove only root Test FINISH" << std::endl;
 }
 
-void TestCreateRootAndRightChildRemoveRoot() {
+void TestCreateRootAndRightChildremoveRoot() {
     std::cout << "Create root and right child Remove only root Test START" << std::endl;
     Tree<int> tree = Tree<int>();
     tree.Insert(1, new int(5));
@@ -1138,7 +1138,7 @@ void TestCreateRootAndRightChildRemoveRoot() {
     std::cout << "Create root and right child Remove only root Test FINISH" << std::endl;
 }
 
-void TestCreateRootAndLeftChildRemoveRoot() {
+void TestCreateRootAndLeftChildremoveRoot() {
     std::cout << "Create root and left child Remove only root Test START" << std::endl;
     Tree<int> tree = Tree<int>();
     tree.Insert(2, new int(5));
@@ -1153,7 +1153,7 @@ void TestCreateRootAndLeftChildRemoveRoot() {
     std::cout << "Create root and left child Remove only root Test FINISH" << std::endl;
 }
 
-void TestCreateRootAndTwoChildrenRemoveRoot() {
+void TestCreateRootAndTwoChildrenremoveRoot() {
     std::cout << "Create root and two children Remove only root Test START" << std::endl;
     Tree<int> tree = Tree<int>();
     tree.Insert(2, new int(5));
@@ -1191,9 +1191,9 @@ void TestTreeDelete2NodesTillEmpty() {
     tree->Insert(2, new int(5));
     tree->Remove(1);
     tree->Remove(2);
-    if (tree->IsEmpty()) {
-        std::cout << "the tree is now empty" << std::endl;
-    }
+//    if (tree->IsEmpty()) {
+//        std::cout << "the tree is now empty" << std::endl;
+//    }
     delete tree;
     std::cout << "Tree delete 2 nodes till empty Test FINISH" << std::endl;
 }
@@ -1203,10 +1203,10 @@ void TestGetNextFunc() {
     Tree<int> *tree = new Tree<int>();
     tree->Insert(1, new int(5));
     TreeNode<int> *retrieve = tree->Find(1);
-    TreeNode<int> *next = retrieve->getNext();
-    if (!next) {
-        std::cout << "no successor" << std::endl;
-    }
+//    TreeNode<int> *next = retrieve->getNext();
+//    if (!next) {
+//        std::cout << "no successor" << std::endl;
+//    }
 //    tree->Insert(2, new int(5));
 //    tree->Remove(1);
 //    tree->Remove(2);
@@ -1219,30 +1219,30 @@ void TestGetNextFunc() {
 
 void test1 (Tree<int>* t) {
 
-    t->Insert(100,new int(100));
-    t->Insert(200,new int(100));
-    t->Insert(-100,new int(100));
-    t->Insert(324,new int(100));
-    t->Insert(100,new int(100));
-    t->Insert(64,new int(100));
-    t->Insert(11,new int(100));
-    t->Insert(33,new int(100));
-    t->Insert(4135,new int(100));
-    t->Insert(451,new int(100));
-    t->Insert(77,new int(100));
-    t->Insert(-6,new int(100));
-    t->Insert(2,new int(100));
-    t->Insert(88,new int(100));
-    t->Insert(-34,new int(100));
-    t->Insert(-111,new int(100));
-    t->Insert(234,new int(100));
-    t->Insert(678,new int(100));
-    t->Insert(89,new int(100));
-    t->Insert(-12,new int(100));
-    t->Insert(-21,new int(100));
-    t->Insert(54,new int(100));
-    t->Insert(-988,new int(100));
-    t->Insert(676,new int(100));
+    t->Insert(100, new int(100));
+    t->Insert(200, new int(100));
+    t->Insert(-100, new int(100));
+    t->Insert(324, new int(100));
+    t->Insert(100, new int(100));
+    t->Insert(64, new int(100));
+    t->Insert(11, new int(100));
+    t->Insert(33, new int(100));
+    t->Insert(4135, new int(100));
+    t->Insert(451, new int(100));
+    t->Insert(77, new int(100));
+    t->Insert(-6, new int(100));
+    t->Insert(2, new int(100));
+    t->Insert(88, new int(100));
+    t->Insert(-34, new int(100));
+    t->Insert(-111, new int(100));
+    t->Insert(234, new int(100));
+    t->Insert(678, new int(100));
+    t->Insert(89, new int(100));
+    t->Insert(-12, new int(100));
+    t->Insert(-21, new int(100));
+    t->Insert(54, new int(100));
+    t->Insert(-988, new int(100));
+    t->Insert(676, new int(100));
     t->Remove(-100);
     t->Remove(676);
     t->Remove(-988);
@@ -1257,43 +1257,86 @@ void test1 (Tree<int>* t) {
 
 
 int main() {
-//    TestLL();
-//    TestLR();
-//    TestRR();
-//    TestRL();
- //   TestLRDontChangeRoot();
-//    TestLLDontChangeRoot();
-//    TestRRDontChangeRoot();
-//    TestRLDontChangeRoot();
-//    TestReplaceRootWithSuccessor();
-//    TestReplaceRootWithNonSuccessor();
-//    TestRemoveNodeWithSuccessorNeighbour();
-//    TestRemoveNodeWithSuccessorNonNeighbour();
-//    TestRemoveNodeCauseLR();
-//    TestRemoveNodeCauseLL();
-//    TestRemoveNodeCauseRR();
-//    TestRemoveNodeCauseRL();
-//    TestRemoveNodeCauseRLRR();
-//    TestRemoveNodeCauseRRRR();
-  // TestRemoveNodeCauseRLLL();
- //   TestRemoveNodeCauseLRLL();
-//    TestRemoveNodeCauseLR2();
-//    TestRemoveNodeCauseLR3();
-//    TestFind();
-//    TestCreateAndRemoveSoloRoot();
-//    TestCreateRootAndRightChildRemoveRoot();
-//    TestCreateRootAndLeftChildRemoveRoot();
-//    TestCreateRootAndTwoChildrenRemoveRoot();
-//    TestTreeDeletionNullptr();
-//    TestTreeDelete2NodesTillEmpty();
+    TestLL();
+    TestLR();
+    TestRR();
+    TestRL();
+    TestLRDontChangeRoot();
+    TestLLDontChangeRoot();
+    TestRRDontChangeRoot();
+    TestRLDontChangeRoot();
+    TestReplaceRootWithSuccessor();
+    TestReplaceRootWithNonSuccessor();
+    TestremoveNodeWithSuccessorNeighbour();
+    TestremoveNodeWithSuccessorNonNeighbour();
+    TestremoveNodeCauseLR();
+    TestremoveNodeCauseLL();
+    TestremoveNodeCauseRR();
+    TestremoveNodeCauseRL();
+    TestremoveNodeCauseRLRR();
+    TestremoveNodeCauseRRRR();
+   TestremoveNodeCauseRLLL();
+    TestremoveNodeCauseLRLL();
+    TestremoveNodeCauseLR2();
+    TestremoveNodeCauseLR3();
+    TestFind();
+    TestCreateAndremoveSoloRoot();
+    TestCreateRootAndRightChildremoveRoot();
+    TestCreateRootAndLeftChildremoveRoot();
+    TestCreateRootAndTwoChildrenremoveRoot();
+    TestTreeDeletionNullptr();
+    TestTreeDelete2NodesTillEmpty();
 //    TestRandomInput();
  //     TestAddALot();
-   Tree<int> *t =new Tree<int>();
 //    test1(t);
-    for (int i = 0; i < 5000; ++i) {
-        t->Insert(i,new int(i));
+//    for (int i = 0; i < 5000; ++i) {
+//        t->Insert(i, new int(i));
+//    }
+//    t->getMinNode();
+    Tree<int> *t =new Tree<int>();
+    for(int i = 1 ; i<10000 ; i++){
+        int k = rand() %1000;
+        if (!t->Find(k)) {
+            t->Insert(k, new int(1));
+        }
     }
-    t->PrintInOrder();
+    for (int i=1; i<100; i++){
+        int k=rand()%1000;
+        t->Remove(k);
+    }
+    for(int i = 1 ; i<10000 ; i++){
+        int k = rand() %1000;
+        if (!t->Find(k)) {
+            t->Insert(k, new int(1));
+        }
+    }
+    for (int i=1; i<100; i++){
+        int k=rand()%1000;
+        t->Remove(k);
+    }
+    for(int i = 1 ; i<10000 ; i++){
+        int k = rand() %1000;
+        if (!t->Find(k)) {
+            t->Insert(k, new int(1));
+        }
+    }
+    for (int i=1; i<100; i++){
+        int k=rand()%1000;
+        t->Remove(k);
+    }
+    for(int i = 1 ; i<10000 ; i++){
+        int k = rand() %1000;
+        if (!t->Find(k)) {
+            t->Insert(k, new int(1));
+        }
+    }
+    for (int i=1; i<100; i++){
+        int k=rand()%1000;
+        t->Remove(k);
+    }
+    delete t;
     return 0;
+
+    //std::cout << "result is: " << result->getKey() << *result->getData() << std::endl;
 }
 
