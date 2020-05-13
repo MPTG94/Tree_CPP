@@ -5,10 +5,14 @@
 
 #include <vector>
 #include <ostream>
+#include <iostream>
 #include <random>
 #include <chrono>
 #include <algorithm>
 #include "Tree.h"
+
+using std::cout;
+using std::endl;
 
 void TestLL() {
     //basic LL root change
@@ -31,7 +35,7 @@ void TestLR() {
     treeLR->Insert(3, new int(3));
     treeLR->Insert(1, new int(1));
     treeLR->Insert(2, new int(2));
-//    treeLR->getMinNode();
+//    treeLR->findMin();
     delete treeLR;
     treeLR = nullptr;
     std::cout << std::endl;
@@ -45,7 +49,7 @@ void TestRR() {
     treeRR->Insert(1, new int(1));
     treeRR->Insert(2, new int(2));
     treeRR->Insert(3, new int(3));
-//    treeRR->getMinNode();
+//    treeRR->findMin();
     delete treeRR;
     treeRR = nullptr;
     std::cout << std::endl;
@@ -59,7 +63,7 @@ void TestRL() {
     treeRL->Insert(1, new int(1));
     treeRL->Insert(3, new int(3));
     treeRL->Insert(2, new int(2));
-//    treeRL->getMinNode();
+//    treeRL->findMin();
     delete treeRL;
     treeRL = nullptr;
     std::cout << std::endl;
@@ -595,7 +599,7 @@ void TestLRDontChangeRoot() {
     treeLRnRootC->Insert(7, new int(7));
     treeLRnRootC->Insert(1, new int(1));
     treeLRnRootC->Insert(2, new int(2));
-//    treeLRnRootC->getMinNode();
+//    treeLRnRootC->findMin();
     delete treeLRnRootC;
     treeLRnRootC = nullptr;
     std::cout << std::endl;
@@ -623,7 +627,7 @@ void TestLLDontChangeRoot() {
     treeLLnRootC->Insert(7, new int(7));
     treeLLnRootC->Insert(2, new int(2));
     treeLLnRootC->Insert(1, new int(1));
-//    treeLLnRootC->getMinNode();
+//    treeLLnRootC->findMin();
     delete treeLLnRootC;
     treeLLnRootC = nullptr;
     std::cout << std::endl;
@@ -645,7 +649,7 @@ void TestRRDontChangeRoot() {
     treeRRnRootC->Insert(1, new int(1));
     treeRRnRootC->Insert(2, new int(2));
     treeRRnRootC->Insert(3, new int(3));
-//    treeRRnRootC->getMinNode();
+//    treeRRnRootC->findMin();
     delete treeRRnRootC;
     treeRRnRootC = nullptr;
     std::cout << std::endl;
@@ -667,7 +671,7 @@ void TestRLDontChangeRoot() {
     treeRLnRootC->Insert(1, new int(1));
     treeRLnRootC->Insert(3, new int(3));
     treeRLnRootC->Insert(2, new int(2));
-//    treeRLnRootC->getMinNode();
+//    treeRLnRootC->findMin();
     delete treeRLnRootC;
     treeRLnRootC = nullptr;
     std::cout << std::endl;
@@ -689,7 +693,7 @@ void TestReplaceRootWithSuccessor() {
     treeDeleteRootGetSuccessor->Insert(2, new int(2));
     treeDeleteRootGetSuccessor->Insert(6, new int(6));
     treeDeleteRootGetSuccessor->Remove(4);
-//    treeDeleteRootGetSuccessor->getMinNode();
+//    treeDeleteRootGetSuccessor->findMin();
     delete treeDeleteRootGetSuccessor;
     treeDeleteRootGetSuccessor = nullptr;
     std::cout << std::endl;
@@ -715,7 +719,7 @@ void TestReplaceRootWithNonSuccessor() {
     treeDeleteRootNotSuccessor->Insert(8, new int(8));
     treeDeleteRootNotSuccessor->Insert(6, new int(6));
     treeDeleteRootNotSuccessor->Remove(4);
-//    treeDeleteRootNotSuccessor->getMinNode();
+//    treeDeleteRootNotSuccessor->findMin();
     delete treeDeleteRootNotSuccessor;
     treeDeleteRootNotSuccessor = nullptr;
     std::cout << std::endl;
@@ -743,7 +747,7 @@ void TestremoveNodeWithSuccessorNeighbour() {
     treeDeleteNodeSuccessor->Insert(5, new int(5));
     treeDeleteNodeSuccessor->Insert(1, new int(1));
     treeDeleteNodeSuccessor->Remove(3);
-//    treeDeleteNodeSuccessor->getMinNode();
+//    treeDeleteNodeSuccessor->findMin();
     delete treeDeleteNodeSuccessor;
     std::cout << std::endl;
     std::cout << "replace node with successor neighbour Test FINISH" << std::endl;
@@ -778,7 +782,7 @@ void TestremoveNodeWithSuccessorNonNeighbour() {
     treeDeleteNodeSuccessor->Insert(14, new int(14));
     treeDeleteNodeSuccessor->Insert(6, new int(6));
     treeDeleteNodeSuccessor->Remove(3);
-//    treeDeleteNodeSuccessor->getMinNode();
+//    treeDeleteNodeSuccessor->findMin();
     delete treeDeleteNodeSuccessor;
     std::cout << std::endl;
     std::cout << "replace node with successor non neighbour Test FINISH" << std::endl;
@@ -1292,7 +1296,7 @@ int main() {
 //    for (int i = 0; i < 5000; ++i) {
 //        t->Insert(i, new int(i));
 //    }
-//    t->getMinNode();
+//    t->findMin();
     Tree<int> *t =new Tree<int>();
     for(int i = 1 ; i<10000 ; i++){
         int k = rand() %1000;
