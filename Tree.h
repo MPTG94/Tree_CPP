@@ -49,6 +49,14 @@ public:
 
     T *getData();
 
+    int getHeight();
+
+    int getNodeBalanceFactor();
+
+    int getLeftChildHeight();
+
+    int getRightChildHeight();
+
     TreeNode<T> *Insert(int nodeKey, T *nodeData = nullptr, TreeNode<T> *result = nullptr);
 
     TreeNode<T> *Remove(int nodeKey);
@@ -95,15 +103,7 @@ TreeNode<T> *TreeNode<T>::Rebalance() {
     // Getting the balance factor of the current node
     int balance = getBalanceFactor();
 
-    if (balance > 1) {
-        // The tree is left heavy
-        int leftSubtreeBalance = getLeft()->getBalanceFactor();
-        if (leftSubtreeBalance >= 0) {
-            return LeftRotate();
-        } else {
-            return LeftRightRotate();
-        }
-    } else if (balance < -1) {
+    if (balance < -1) {
         // The tree is right heavy
         int rightSubtreeBalance = getRight()->getBalanceFactor();
         if (rightSubtreeBalance > 0) {
@@ -111,7 +111,17 @@ TreeNode<T> *TreeNode<T>::Rebalance() {
         } else {
             return RightRotate();
         }
+
+    } else if (balance > 1) {
+        // The tree is left heavy
+        int leftSubtreeBalance = getLeft()->getBalanceFactor();
+        if (leftSubtreeBalance >= 0) {
+            return LeftRotate();
+        } else {
+            return LeftRightRotate();
+        }
     }
+
     return this;
 }
 
@@ -125,10 +135,10 @@ int TreeNode<T>::getBalanceFactor() {
     updateNodeHeight();
     int leftHeight = 0;
     int rightHeight = 0;
-    if (getRight() != nullptr) {
+    if (getRight()) {
         rightHeight = getRight()->height;
     }
-    if (getLeft() != nullptr) {
+    if (getLeft()) {
         leftHeight = getLeft()->height;
     }
     return leftHeight - rightHeight;
@@ -142,11 +152,11 @@ int TreeNode<T>::getBalanceFactor() {
  */
 template<class T>
 void TreeNode<T>::SwapNodesParent(TreeNode<T> *replacement) {
-    if (replacement != nullptr) {
+    if (replacement) {
         replacement->parent = this->getParent();
     }
-    if (this->getParent() != nullptr) {
-        if (this->getParent()->getLeft() != nullptr && this->getParent()->getLeft()->getKey() == this->getKey()) {
+    if (this->getParent()) {
+        if (this->getParent()->getLeft() && this->getParent()->getLeft()->getKey() == this->getKey()) {
             this->parent->left = replacement;
         } else {
             this->parent->right = replacement;
@@ -160,14 +170,8 @@ void TreeNode<T>::SwapNodesParent(TreeNode<T> *replacement) {
  */
 template<class T>
 void TreeNode<T>::updateNodeHeight() {
-    int leftHeight = 0;
-    int rightHeight = 0;
-    if (left != nullptr) {
-        leftHeight = left->height;
-    }
-    if (right != nullptr) {
-        rightHeight = right->height;
-    }
+    int leftHeight = getLeftChildHeight();
+    int rightHeight = getRightChildHeight();
 
     height = 1 + max(leftHeight, rightHeight);
 }
@@ -203,15 +207,15 @@ template<class T>
 TreeNode<T> *TreeNode<T>::LeftRotate() {
     TreeNode<T> *newRoot = left;
     left = left->right;
-    if (left != nullptr) {
+    if (left) {
         left->parent = this;
     }
     // Moving newRoot to the place of "this"
     newRoot->right = this;
     newRoot->parent = this->parent;
-    if (this->parent != nullptr) {
+    if (this->getParent()) {
         // Checking if newRoot is a right child or left child of the original parent
-        if (this->parent->left != nullptr && this->parent->left->key == this->key) {
+        if (this->getParent()->getLeft() && this->getParent()->getLeft()->getKey() == this->getKey()) {
             this->parent->left = newRoot;
         } else {
             this->parent->right = newRoot;
@@ -233,15 +237,15 @@ template<class T>
 TreeNode<T> *TreeNode<T>::RightRotate() {
     TreeNode<T> *newRoot = right;
     right = right->left;
-    if (right != nullptr) {
+    if (right) {
         right->parent = this;
     }
     // Moving newRoot to the place of "this"
     newRoot->left = this;
     newRoot->parent = this->parent;
-    if (this->parent != nullptr) {
+    if (this->getParent()) {
         // Checking if newRoot is a right child or left child of the original parent
-        if (this->parent->left != nullptr && this->parent->left->key == this->key) {
+        if (this->getParent()->getLeft() && this->getParent()->getLeft()->getKey() == this->getKey()) {
             this->parent->left = newRoot;
         } else {
             this->parent->right = newRoot;
@@ -264,11 +268,11 @@ TreeNode<T> *TreeNode<T>::RightRotate() {
 template<class T>
 TreeNode<T> *TreeNode<T>::DeleteNode() {
     // Search for the next node to act as subtree root
-    if (left != nullptr) {
+    if (left) {
         TreeNode<T> *next = left->findMax();
-        if (left->right != nullptr) {
+        if (left->getRight()) {
             next->parent->right = next->left;
-            if (next->left != nullptr) {
+            if (next->getLeft()) {
                 next->left->parent = next->parent;
             }
             next->left = this->left;
@@ -278,12 +282,12 @@ TreeNode<T> *TreeNode<T>::DeleteNode() {
         // node we need to delete
         this->SwapNodesParent(next);
         next->right = this->right;
-        if (this->right != nullptr) {
+        if (this->getRight()) {
             this->right->parent = next;
         }
         delete this;
         return next->Rebalance();
-    } else if (right != nullptr) {
+    } else if (right) {
         TreeNode<T> *next = this->right;
         // Performing pointer and parent swap between the next node and the
         // node we need to delete
@@ -338,6 +342,52 @@ T *TreeNode<T>::getData() {
 }
 
 /**
+ * Returns the height of the node
+ * @tparam T Pointer to dynamically allocated object of type T
+ * @return The height of the tree node
+ */
+template<class T>
+int TreeNode<T>::getHeight() {
+    return height;
+}
+
+/**
+ * Returns the balance factor of the node
+ * @tparam T Pointer to dynamically allocated object of type T
+ * @return The balance factor of the tree node
+ */
+template<class T>
+int TreeNode<T>::getNodeBalanceFactor() {
+    return getBalanceFactor();
+}
+
+/**
+ * Returns the height of the left child
+ * @tparam T Pointer to dynamically allocated object of type T
+ * @return The height of the left child
+ */
+template<class T>
+int TreeNode<T>::getLeftChildHeight() {
+    if (left) {
+        return left->height;
+    }
+    return 0;
+}
+
+/**
+ * Returns the height of the right child
+ * @tparam T Pointer to dynamically allocated object of type T
+ * @return The height of the right child
+ */
+template<class T>
+int TreeNode<T>::getRightChildHeight() {
+    if (right) {
+        return right->height;
+    }
+    return 0;
+}
+
+/**
  * Insert a new node to the subtree tree and returns the new root of the subtree
  * after rotations and rebalance
  * @tparam T Pointer to dynamically allocated object of type T
@@ -351,7 +401,7 @@ TreeNode<T> *TreeNode<T>::Insert(int nodeKey, T *nodeData, TreeNode<T> *result) 
     // Search for the right place to insert the node
     if (nodeKey > key) {
         // The node will be a right child of this node
-        if (right == nullptr) {
+        if (!right) {
             // Found the correct spot to insert the node
             right = new TreeNode(nodeKey, nodeData, this);
             // Saving the new object to the result pointer for future retrieval
@@ -362,7 +412,7 @@ TreeNode<T> *TreeNode<T>::Insert(int nodeKey, T *nodeData, TreeNode<T> *result) 
         }
     } else if (nodeKey < key) {
         // The node will be a left child of this node
-        if (left == nullptr) {
+        if (!left) {
             // Found the correct spot to insert the node
             left = new TreeNode(nodeKey, nodeData, this);
             // Saving the new object to the result pointer for future retrieval
@@ -391,14 +441,14 @@ TreeNode<T> *TreeNode<T>::Remove(int nodeKey) {
     // Searching for the node to remove
     if (nodeKey < key) {
         // The delete target is a left child of the current node
-        if (left != nullptr) {
+        if (left) {
             left->Remove(nodeKey);
         } else {
             return this;
         }
     } else if (nodeKey > key) {
         // The delete target is a right child of the current node
-        if (right != nullptr) {
+        if (right) {
             right->Remove(nodeKey);
         } else {
             return this;
@@ -420,23 +470,23 @@ TreeNode<T> *TreeNode<T>::Remove(int nodeKey) {
  */
 template<class T>
 TreeNode<T> *TreeNode<T>::Find(int searchKey) {
-    if (searchKey == key) {
-        // We found the node we were looking for
-        return this;
-    } else if (searchKey < key) {
+    if (getKey() > searchKey) {
         // The node we are looking for is a left child of this node
-        if (left != nullptr) {
+        if (left) {
             return left->Find(searchKey);
         } else {
             return nullptr;
         }
-    } else {
+    } else if (getKey() < searchKey) {
         // The node we are looking for is a right child of this node
-        if (right != nullptr) {
+        if (right) {
             return right->Find(searchKey);
         } else {
             return nullptr;
         }
+    } else {
+        // We found the node we were looking for
+        return this;
     }
 }
 
@@ -447,7 +497,7 @@ TreeNode<T> *TreeNode<T>::Find(int searchKey) {
  */
 template<class T>
 TreeNode<T> *TreeNode<T>::findMin() {
-    if (left != nullptr) {
+    if (left) {
         return left->findMin();
     }
     return this;
@@ -460,7 +510,7 @@ TreeNode<T> *TreeNode<T>::findMin() {
  */
 template<class T>
 TreeNode<T> *TreeNode<T>::findMax() {
-    if (right != nullptr) {
+    if (right) {
         return right->findMax();
     }
     return this;
@@ -474,14 +524,14 @@ TreeNode<T> *TreeNode<T>::findMax() {
 template<class T>
 TreeNode<T> *TreeNode<T>::getNext() {
     TreeNode<T> *current = this;
-    if (current->right() != nullptr) {
+    if (current->right()) {
         // This node has a right child, which means if we follow the branch
         // once to the right and then all the way to the left, we will find the
         // correct following child
         return findMin(current->right);
     } else {
         TreeNode<T> *parent = current->parent;
-        while (parent != nullptr) {
+        while (parent) {
             TreeNode<T> *child = parent->left;
             if (child && child->key == current->key) {
                 // The node we started with is the left child of the current parent,
@@ -563,12 +613,12 @@ void TreeNode<T>::setParent(TreeNode<T> *ptr) {
  */
 template<class T>
 void TreeNode<T>::DeleteTreeData() {
-    if (left != nullptr) {
+    if (left) {
         left->DeleteTreeData();
         delete left;
         left = nullptr;
     }
-    if (right != nullptr) {
+    if (right) {
         right->DeleteTreeData();
         delete right;
         right = nullptr;
@@ -583,7 +633,7 @@ void TreeNode<T>::DeleteTreeData() {
  */
 template<class T>
 TreeNode<T>::~TreeNode() {
-    if (data != nullptr) {
+    if (data) {
         delete data;
         data = nullptr;
     }
@@ -651,7 +701,7 @@ TreeNode<T> *Tree<T>::GetRoot() {
  */
 template<class T>
 TreeNode<T> *Tree<T>::Find(int key) {
-    if (root == nullptr) {
+    if (!root) {
         return nullptr;
     }
 
@@ -669,7 +719,7 @@ TreeNode<T> *Tree<T>::Find(int key) {
  */
 template<class T>
 void Tree<T>::Insert(int key, T *data) {
-    if (root == nullptr) {
+    if (!root) {
         // The tree is empty, inserting the new node as the root
         root = new TreeNode<T>(key, data);
         minimalKeyNode = root;
@@ -694,7 +744,7 @@ void Tree<T>::Insert(int key, T *data) {
  */
 template<class T>
 TreeNode<T> *Tree<T>::InsertGetBack(int key, T *data) {
-    if (root == nullptr) {
+    if (!root) {
         root = new TreeNode<T>(key, data);
         // The tree is empty, inserting the new node as the root
         minimalKeyNode = root;
@@ -719,11 +769,13 @@ TreeNode<T> *Tree<T>::InsertGetBack(int key, T *data) {
  */
 template<class T>
 void Tree<T>::Remove(int key) {
-    bool flag = minimalKeyNode != nullptr && minimalKeyNode->getKey() == key;
-    if (root != nullptr) {
+    bool minimalDeleted = minimalKeyNode && minimalKeyNode->getKey() == key;
+    if (root) {
         root = root->Remove(key);
-        if (flag) {
-            if (root != nullptr) {
+        if (minimalDeleted) {
+            if (root) {
+                // The old minimal node is the one we deleted, so we need to find
+                // a new minimal node
                 minimalKeyNode = root->findMin();
             } else {
                 minimalKeyNode = nullptr;
@@ -759,7 +811,7 @@ bool Tree<T>::IsRootNull() {
  */
 template<class T>
 Tree<T>::~Tree() {
-    if (root != nullptr) {
+    if (root) {
         root->DeleteTreeData();
         delete root;
         root = nullptr;
