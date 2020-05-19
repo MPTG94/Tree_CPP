@@ -807,7 +807,6 @@ void TestremoveNodeCauseLR() {
     tree->Insert(9, new int(9));
     tree->Insert(3, new int(3));
     tree->Remove(9);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause LR Test FINISH" << std::endl;
@@ -832,7 +831,6 @@ void TestremoveNodeCauseLL() {
     tree->Insert(9, new int(9));
     tree->Insert(1, new int(1));
     tree->Remove(9);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause LL Test FINISH" << std::endl;
@@ -857,7 +855,6 @@ void TestremoveNodeCauseRR() {
     tree->Insert(9, new int(9));
     tree->Insert(10, new int(10));
     tree->Remove(1);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause RR Test FINISH" << std::endl;
@@ -882,7 +879,6 @@ void TestremoveNodeCauseRL() {
     tree->Insert(14, new int(14));
     tree->Insert(10, new int(10));
     tree->Remove(1);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause RL Test FINISH" << std::endl;
@@ -912,7 +908,6 @@ void TestremoveNodeCauseRLRR() {
     tree->Insert(21, new int(21));
     tree->Insert(23, new int(23));
     tree->Remove(1);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause RL RR Test FINISH" << std::endl;
@@ -942,7 +937,6 @@ void TestremoveNodeCauseRRRR() {
     tree->Insert(21, new int(21));
     tree->Insert(23, new int(23));
     tree->Remove(1);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause RR RR Test FINISH" << std::endl;
@@ -972,7 +966,6 @@ void TestremoveNodeCauseRLLL() {
     tree->Insert(18, new int(18));
     tree->Insert(6, new int(6));
     tree->Remove(21);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause RL LL Test FINISH" << std::endl;
@@ -1002,7 +995,6 @@ void TestremoveNodeCauseLRLL() {
     tree->Insert(21, new int(21));
     tree->Insert(6, new int(6));
     tree->Remove(17);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause LR LL Test FINISH" << std::endl;
@@ -1025,7 +1017,6 @@ void TestremoveNodeCauseLR2() {
     tree->Insert(2, new int(2));
     tree->Insert(4, new int(4));
     tree->Remove(5);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause LR 2 Test FINISH" << std::endl;
@@ -1047,41 +1038,40 @@ void TestremoveNodeCauseLR3() {
     tree->Insert(6, new int(6));
     tree->Insert(2, new int(2));
     tree->Remove(5);
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Remove node and cause LR 3 Test FINISH" << std::endl;
 }
 
-void TestRandomInput() {
-    std::cout << "Random Input Test START" << std::endl;
-    Tree<int> *tree = new Tree<int>();
-    std::vector<int> vector;
-    for (int i = 1; i <= 100; i++) vector.push_back(i);
-
-    //Randomly Insert and removes nodes
-    for (int k = 0; k < 20; ++k) {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
-        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
-            tree->Insert(*it, new int(*it));
-
-        }
-        tree->getMinNode();
-        std::cout << std::endl;
-        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
-        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
-            tree->Remove(*it);
-            tree->getMinNode();
-
-        }
-        delete tree;
-        tree = new Tree<int>();
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    std::cout << "Random Input Test FINISH" << std::endl;
-}
+//void TestRandomInput() {
+//    std::cout << "Random Input Test START" << std::endl;
+//    Tree<int> *tree = new Tree<int>();
+//    std::vector<int> vector;
+//    for (int i = 1; i <= 100; i++) vector.push_back(i);
+//
+//    //Randomly Insert and removes nodes
+//    for (int k = 0; k < 20; ++k) {
+//        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+//        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
+//        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
+//            tree->Insert(*it, new int(*it));
+//
+//        }
+//        tree->getMinNode();
+//        std::cout << std::endl;
+//        shuffle(vector.begin(), vector.end(), std::default_random_engine(seed));
+//        for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it) {
+//            tree->Remove(*it);
+//            tree->getMinNode();
+//
+//        }
+//        delete tree;
+//        tree = new Tree<int>();
+//        std::cout << std::endl;
+//    }
+//    std::cout << std::endl;
+//    std::cout << "Random Input Test FINISH" << std::endl;
+//}
 
 void TestFind() {
     std::cout << "Find Test START" << std::endl;
@@ -1110,7 +1100,6 @@ void TestFind() {
     } else {
         std::cout << "can't Find node with given key" << std::endl;
     }
-    tree->getMinNode();
     delete tree;
     std::cout << std::endl;
     std::cout << "Find Test FINISH" << std::endl;
@@ -1297,50 +1286,53 @@ int main() {
 //        t->Insert(i, new int(i));
 //    }
 //    t->findMin();
-    Tree<int> *t =new Tree<int>();
-    for(int i = 1 ; i<10000 ; i++){
-        int k = rand() %1000;
-        if (!t->Find(k)) {
-            t->Insert(k, new int(1));
-        }
+//    Tree<int> *t =new Tree<int>();
+//    for(int i = 1 ; i<10000 ; i++){
+//        int k = rand() %1000;
+//        if (!t->Find(k)) {
+//            t->Insert(k, new int(1));
+//        }
+//    }
+//    for (int i=1; i<100; i++){
+//        int k=rand()%1000;
+//        t->Remove(k);
+//    }
+//    for(int i = 1 ; i<10000 ; i++){
+//        int k = rand() %1000;
+//        if (!t->Find(k)) {
+//            t->Insert(k, new int(1));
+//        }
+//    }
+//    for (int i=1; i<100; i++){
+//        int k=rand()%1000;
+//        t->Remove(k);
+//    }
+//    for(int i = 1 ; i<10000 ; i++){
+//        int k = rand() %1000;
+//        if (!t->Find(k)) {
+//            t->Insert(k, new int(1));
+//        }
+//    }
+//    for (int i=1; i<100; i++){
+//        int k=rand()%1000;
+//        t->Remove(k);
+//    }
+//    for(int i = 1 ; i<10000 ; i++){
+//        int k = rand() %1000;
+//        if (!t->Find(k)) {
+//            t->Insert(k, new int(1));
+//        }
+//    }
+//    for (int i=1; i<100; i++){
+//        int k=rand()%1000;
+//        t->Remove(k);
+//    }
+//    delete t;
+    Tree<int> test = Tree<int>();
+    for (int i = 0; i < 5000; ++i) {
+        TreeNode<int>* result = test.InsertGetBack(i,new int(i));
+        std::cout << result->getKey() << "AND" << result->getData() << std::endl;
     }
-    for (int i=1; i<100; i++){
-        int k=rand()%1000;
-        t->Remove(k);
-    }
-    for(int i = 1 ; i<10000 ; i++){
-        int k = rand() %1000;
-        if (!t->Find(k)) {
-            t->Insert(k, new int(1));
-        }
-    }
-    for (int i=1; i<100; i++){
-        int k=rand()%1000;
-        t->Remove(k);
-    }
-    for(int i = 1 ; i<10000 ; i++){
-        int k = rand() %1000;
-        if (!t->Find(k)) {
-            t->Insert(k, new int(1));
-        }
-    }
-    for (int i=1; i<100; i++){
-        int k=rand()%1000;
-        t->Remove(k);
-    }
-    for(int i = 1 ; i<10000 ; i++){
-        int k = rand() %1000;
-        if (!t->Find(k)) {
-            t->Insert(k, new int(1));
-        }
-    }
-    for (int i=1; i<100; i++){
-        int k=rand()%1000;
-        t->Remove(k);
-    }
-    delete t;
     return 0;
-
-    //std::cout << "result is: " << result->getKey() << *result->getData() << std::endl;
 }
 
