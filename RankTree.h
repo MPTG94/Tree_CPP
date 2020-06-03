@@ -903,25 +903,6 @@ K RankTreeNode<K, T>::FindNodeByRank(RankTreeNode<K, T> *root, int searchRank) {
     } else {
         return root->key;
     }
-
-
-    if (root->left) {
-        if (root->left->rank == searchRank - 1) {
-            return root->key;
-        } else if (root->left->rank > searchRank - 1) {
-            return FindNodeByRank(root->left, searchRank);
-        } else {
-            return FindNodeByRank(root->right, searchRank - root->left->rank - 1);
-        }
-    } else if (root->right) {
-        if (searchRank == 1) {
-            return root->right->key;
-        } else {
-            return root->key;
-        }
-    } else {
-        return root->key;
-    }
 }
 
 
@@ -1173,6 +1154,5 @@ template<class K, class T>
 K RankTree<K, T>::FindByRank(int searchRank) {
     return RankTreeNode<K, T>::FindNodeByRank(root, searchRank);
 }
-
 
 #endif //TREE_RANKTREE_H
